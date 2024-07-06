@@ -1,0 +1,30 @@
+const filters = {
+    documents: ['DOC', 'DOCX', 'DOCS', 'TXT', 'WPD'],
+    spreadsheets: ['XLS', 'XLSX', 'XLSM'],
+    presentations: ['PPT', 'PPTX', 'PPS'],
+    images: ['JPEG', 'PNG', 'GIF', 'BMP', 'TIFF', 'JPG', 'WEBP'],
+    pdf: ['PDF'],
+    videos: [
+        'WebM',
+        'MP4',
+        '3GP',
+        'MOV',
+        'AVI',
+        'MPEG',
+        'MPG',
+        'WMV',
+        'FLV',
+        'OGG',
+        'H264',
+        '3G2',
+        'M4V',
+        'MKV',
+        'VOB',
+        'SWF',
+        'RM',
+    ],
+    audio: ['MP3', 'MPEG', 'WAV', 'OOG', 'OPUS'],
+    archive: ['ZIP', 'RAR', '7Z', 'GZIP', 'ARj', 'DEB', 'PKG', 'RPM', 'Z'],
+};
+
+export default filters;
