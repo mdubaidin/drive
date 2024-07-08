@@ -29,7 +29,7 @@ import { useMessage } from '../providers/Provider';
 import { handleAxiosError } from '../utils/function';
 import useLoader from '../hooks/useLoader';
 import Select from '../components/Select';
-import { Types } from '../services/filters';
+import { Types } from '../data/filters';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import Icon from '../components/Icon';

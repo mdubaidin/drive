@@ -7,7 +7,7 @@ import FolderOutlinedIcon from '@mui/icons-material/FolderOutlined';
 
 const fileManager = [
     {
-        name: 'My Files',
+        name: 'My Drive',
         icon: <FolderOutlinedIcon fontSize='small' />,
         to: '/',
     },
@@ -17,14 +17,9 @@ const fileManager = [
         to: '/recent',
     },
     {
-        name: 'Favorite',
+        name: 'Starred',
         icon: <GradeOutlinedIcon fontSize='small' />,
         to: '/favorite',
-    },
-    {
-        name: 'Trash',
-        icon: <DeleteOutlinedIcon fontSize='small' />,
-        to: '/trash',
     },
 ];
 
@@ -35,9 +30,14 @@ const sharedFile = [
         to: '/shared-with-me',
     },
     {
-        name: 'Shared by me',
+        name: 'My share',
         icon: <PersonIcon fontSize='small' />,
         to: '/shared-by-me',
+    },
+    {
+        name: 'Bin',
+        icon: <DeleteOutlinedIcon fontSize='small' />,
+        to: '/trash',
     },
 ];
 

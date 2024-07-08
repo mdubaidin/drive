@@ -7,9 +7,8 @@ import { setCookie } from '../utils/cookies.js';
 export default async function (req, res, next) {
     try {
         const accessToken =
-            req.headers.authorization?.replace('Bearer', '') ||
-            req.cookies['jwt-auth.access-token'];
-        const refreshToken = req.cookies['jwt-auth.refresh-token'];
+            req.headers.authorization?.replace('Bearer', '') || req.cookies['jwt-auth'];
+        const refreshToken = req.cookies['jwt-auth_refresh'];
 
         // console.log('refresh', refreshToken, 'access', accessToken);
 

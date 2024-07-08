@@ -72,7 +72,7 @@ const MyFiles = () => {
             data={{
                 files,
                 folders,
-                title: 'My Files',
+                title: 'My Drive',
                 refresh: getFiles,
                 content: { name: 'My Files', key: '', id: '' },
                 defaultImage: 'upload.png',

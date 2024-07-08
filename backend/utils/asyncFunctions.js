@@ -10,8 +10,7 @@ const BUCKET = process.env.AWS_BUCKET_NAME;
 const uploadsFolder = 'uploads';
 
 async function uploadFile(args) {
-    const { userId, parentKey, ROOT, file, available, session, sharedWith, platform, access } =
-        args;
+    const { userId, parentKey, ROOT, file, available, session, sharedWith, access } = args;
 
     const { filename, originalname, mimetype, encoding, size } = file;
     const _id = new Types.ObjectId().toString();
@@ -26,14 +25,8 @@ async function uploadFile(args) {
         name: originalname,
         available,
         sharedWith,
-        ...(platform && { platform: { slug: platform } }),
         ...(access && { access }),
     });
-
-    if (platform) {
-        fileMetadata.getTextLogo(platform);
-        fileMetadata.getLogo(platform);
-    }
 
     await fileMetadata.save({ session });
 

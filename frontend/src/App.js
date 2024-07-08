@@ -8,7 +8,7 @@ import Recent from './pages/Recent';
 import Trash from './pages/Trash';
 import Favorite from './pages/favorite';
 import Search from './pages/Search';
-import MyFiles from './pages/MyFiles';
+import MyFiles from './pages/MyDrive';
 import SharedWithMe from './pages/shared/SharedWithMe';
 import SharedWithFolder from './pages/shared/SharedWithMe/Folder';
 import SharedByFolder from './pages/shared/SharedByMe/Folder';

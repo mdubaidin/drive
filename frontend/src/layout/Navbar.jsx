@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 //mui component
 import {
@@ -12,26 +12,19 @@ import {
     ListItemIcon,
     Divider,
     Avatar,
-    Button,
     Grid,
     Toolbar,
     Typography,
     Menu,
     MenuItem,
     Modal,
-    useTheme as useMuiTheme,
-    SpeedDial,
-    SpeedDialAction,
-    SpeedDialIcon,
     Snackbar,
     useMediaQuery,
-    styled,
     Slide,
     CircularProgress,
 } from '@mui/material';
 
 //mui icons
-import AddIcon from '@mui/icons-material/Add';
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
 import LightModeIcon from '@mui/icons-material/LightMode';
@@ -51,62 +44,15 @@ import { useMessage } from '../providers/Provider';
 import useModal from '../hooks/useModal';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import DriveFolderUploadIcon from '@mui/icons-material/DriveFolderUpload';
-import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import CreateFolder from '../components/folder/CreateFolder';
-import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import eventEmitter from '../utils/eventEmitter';
 import { getSessionData, handleAxiosError, setSessionData } from '../utils/function';
 import { useDropzone } from 'react-dropzone';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
-import CollapseDrawer from './CollapseDrawer';
 import Drawer from './Drawer';
+import AccountMenu from './AccountMenu';
 
-const drawerWidth = 260;
-const miniDrawerWidth = 72;
-
-const openedMixin = theme => ({
-    width: drawerWidth,
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.enteringScreen,
-    }),
-    overflowX: 'hidden',
-    backgroundColor: theme.palette.background.default,
-    borderRight: 'none',
-});
-
-const closedMixin = theme => ({
-    transition: theme.transitions.create('width', {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-    }),
-    backgroundColor: theme.palette.background.default,
-    overflowX: 'hidden',
-    width: `calc(${theme.spacing(7)} + 1px)`,
-    [theme.breakpoints.up('sm')]: {
-        width: `calc(${theme.spacing(8)} + 1px)`,
-    },
-    borderRight: 'none',
-});
-
-const StyledDrawer = styled(MuiDrawer, {
-    shouldForwardProp: prop => prop !== 'open',
-})(({ theme, open }) => ({
-    width: drawerWidth,
-    flexShrink: 0,
-
-    whiteSpace: 'nowrap',
-    boxSizing: 'border-box',
-    ...(open && {
-        ...openedMixin(theme),
-        '& .MuiDrawer-paper': openedMixin(theme),
-    }),
-    ...(!open && {
-        ...closedMixin(theme),
-        '& .MuiDrawer-paper': closedMixin(theme),
-    }),
-}));
+const drawerWidth = 256;
 
 function Transition(props) {
     return <Slide {...props} direction='left' />;
@@ -114,18 +60,10 @@ function Transition(props) {
 
 export default function Navbar(props) {
     const { children } = props;
-
-    const signOut = useSignOut();
     const [mobileOpen, setMobileOpen] = useState(false);
     const [progress, setProgress] = useState({ started: false, value: 0, text: null });
     const isAuthenticated = useIsAuthenticated();
-    const [collapseDrawer, setCollapseDrawer] = useState(true);
-    const [drawerHover, setDrawerHover] = useState(false);
     const matches = useMediaQuery('(min-width:1024px)', { noSsr: true });
-
-    const handleDrawerOpen = () => {
-        setCollapseDrawer(!collapseDrawer);
-    };
 
     const {
         modalState: createFolderState,
@@ -154,7 +92,6 @@ export default function Navbar(props) {
     const user = useMemo(() => ({ firstName: 'John', lastName: '', email: '' }), []);
 
     const { toggleTheme, mode } = useTheme();
-    const theme = useMuiTheme();
 
     // useMenu
     const {
@@ -307,23 +244,13 @@ export default function Navbar(props) {
                 component={Box}
                 position='sticky'
                 sx={{
-                    width: {
-                        xs: '100%',
-                        xm:
-                            collapseDrawer && !drawerHover
-                                ? `calc(100% - ${drawerWidth}px)`
-                                : `calc(100% - ${miniDrawerWidth}px )`,
-                    },
-                    ml: {
-                        xm:
-                            collapseDrawer && !drawerHover
-                                ? `${drawerWidth}px`
-                                : `${miniDrawerWidth}px`,
-                    },
+                    width: '100%',
                     transition: '225ms, background-color 0s',
                     backgroundColor: 'background.default',
                     borderBottom: '1px solid custom.border',
                     color: 'text.primary',
+                    zIndex: { xs: 1200, xm: 1250 },
+                    pb: 1,
                 }}>
                 <Toolbar
                     sx={{
@@ -336,16 +263,29 @@ export default function Navbar(props) {
                         },
                     }}>
                     <Grid container alignItems='center' columnSpacing={1}>
-                        <Grid item>
+                        <Grid
+                            item
+                            flexBasis={{ xm: drawerWidth }}
+                            display='flex'
+                            alignItems='center'>
                             <IconButton
-                                onClick={matches ? handleDrawerOpen : handleDrawerToggle}
+                                onClick={handleDrawerToggle}
                                 edge='start'
                                 sx={{
                                     ml: 0.2,
                                     mr: 1,
+                                    display: { xs: 'inline-flex', xm: 'none' },
                                 }}>
                                 <MenuIcon sx={{ fontSize: '30px' }} />
                             </IconButton>
+
+                            <Box
+                                display={{ xs: 'none', xm: 'flex' }}
+                                component={Link}
+                                to='/'
+                                sx={{ textDecoration: 'none', color: 'text.primary', px: 2 }}>
+                                <Image name='logo.png' sx={{ height: '30px' }} />
+                            </Box>
                         </Grid>
 
                         <Grid item xs md={5} alignItems='start'>
@@ -358,21 +298,6 @@ export default function Navbar(props) {
                                 alignItems='center'
                                 justifyContent='flex-end'
                                 spacing={0}>
-                                <Button
-                                    variant='contained'
-                                    sx={{
-                                        m: 0,
-                                        borderRadius: '1.25rem',
-                                        boxShadow:
-                                            '0 1px 2px 0 rgba(60,64,67,.3),0 1px 3px 1px rgba(60,64,67,.15)',
-                                        py: '4px',
-                                        mr: 1,
-                                        display: { xs: 'none', xm: 'inline-flex' },
-                                    }}
-                                    endIcon={<AddIcon />}
-                                    onClick={openUploadMenu}>
-                                    New
-                                </Button>
                                 <IconButton onClick={openSettingsMenu}>
                                     <SettingsIcon />
                                 </IconButton>
@@ -400,88 +325,20 @@ export default function Navbar(props) {
                                 sx={{
                                     borderWidth: '2px',
                                     borderStyle: 'solid',
-                                    borderColor: 'primary.main',
+                                    borderColor: 'secondary.main',
                                     p: '3px',
                                 }}>
                                 <Avatar
-                                    alt={user.firstName}
+                                    alt={user.name}
                                     src={`https://api.files.clikkle.com/open/file/preview/${user.photo}`}
                                     sx={{ width: 30, height: 30 }}
                                 />
                             </IconButton>
-
-                            <Menu
-                                anchorEl={anchorElProfile}
-                                open={Boolean(anchorElProfile)}
-                                onClose={closeProfileMenu}
-                                sx={{
-                                    '.MuiPaper-root.MuiMenu-paper.MuiPopover-paper': {
-                                        width: 'min(100%, 320px)',
-                                        boxShadow:
-                                            'rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px',
-                                        border: '1px solid #00000017',
-                                        bgcolor: 'custom.menu',
-                                        px: 0.5,
-                                        pt: 1.5,
-                                    },
-                                }}>
-                                <Grid container spacing={2} alignItems='center' flexWrap='nowrap'>
-                                    <Grid item>
-                                        <Avatar
-                                            alt={user.firstName}
-                                            src={`https://api.files.clikkle.com/open/file/preview/${user.photo}`}
-                                            sx={{ width: 100, height: 100 }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={8}>
-                                        <Typography
-                                            variant='substitle1'
-                                            component='div'
-                                            fontWeight={600}
-                                            sx={{
-                                                whiteSpace: 'nowrap',
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                            }}>
-                                            {user.firstName + ' ' + user.lastName}
-                                        </Typography>
-                                        <Typography
-                                            variant='caption'
-                                            component='div'
-                                            sx={{
-                                                overflow: 'hidden',
-                                                textOverflow: 'ellipsis',
-                                                whiteSpace: 'nowrap',
-                                            }}>
-                                            {user.email}
-                                        </Typography>
-                                        <Typography
-                                            variant='caption'
-                                            component='a'
-                                            href='#'
-                                            color='primary.main'
-                                            display='block'>
-                                            My Clikkle account
-                                        </Typography>
-                                        <Typography
-                                            variant='caption'
-                                            component='a'
-                                            href='#'
-                                            color='primary.main'
-                                            display='block'>
-                                            My Profile
-                                        </Typography>
-                                    </Grid>
-                                </Grid>
-                                <Stack direction='row' mt={2}>
-                                    <Button variant='text' fullWidth>
-                                        Add account
-                                    </Button>
-                                    <Button variant='text' onClick={signOut} fullWidth>
-                                        Sign out
-                                    </Button>
-                                </Stack>
-                            </Menu>
+                            <AccountMenu
+                                anchorElProfile={anchorElProfile}
+                                closeProfileMenu={closeProfileMenu}
+                                user={user}
+                            />
                         </Grid>
                     </Grid>
                 </Toolbar>
@@ -492,7 +349,7 @@ export default function Navbar(props) {
                 sx={{
                     width: { xm: drawerWidth },
                     flexShrink: { sm: 0 },
-                    bgcolor: 'custom.menu',
+                    bgcolor: 'background.default',
                 }}>
                 {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <MuiDrawer
@@ -507,38 +364,25 @@ export default function Navbar(props) {
                         '& .MuiDrawer-paper': {
                             boxSizing: 'border-box',
                             width: drawerWidth,
-                            bgcolor: 'custom.menu',
+                            bgcolor: 'background.default',
+                            backgroundImage: 'none',
                         },
                     }}>
-                    <StyledDrawer />
+                    <Drawer openUploadMenu={openUploadMenu} openSettingsMenu={openSettingsMenu} />
                 </MuiDrawer>
-                <StyledDrawer
+                <MuiDrawer
                     variant='permanent'
-                    open={collapseDrawer}
-                    hover={drawerHover}
-                    onMouseOver={() => {
-                        if (!collapseDrawer) {
-                            setCollapseDrawer(true);
-                            setDrawerHover(true);
-                        }
-                    }}
-                    onMouseLeave={() => {
-                        if (drawerHover) {
-                            setCollapseDrawer(false);
-                            setDrawerHover(false);
-                        }
-                    }}
                     sx={{
                         display: { xs: 'none', xm: 'block' },
                         p: 0,
                         '& .MuiDrawer-paper': {
-                            boxShadow: drawerHover
-                                ? 'rgba(149, 157, 165, 0.2) 0px 8px 24px'
-                                : 'none',
+                            width: drawerWidth,
+                            bgcolor: 'background.default',
+                            border: 'none',
                         },
                     }}>
-                    {collapseDrawer ? <Drawer /> : <CollapseDrawer />}
-                </StyledDrawer>
+                    <Drawer openUploadMenu={openUploadMenu} openSettingsMenu={openSettingsMenu} />
+                </MuiDrawer>
             </Box>
 
             <div {...getRootProps({ onClick: e => e.stopPropagation() })}>
@@ -548,18 +392,11 @@ export default function Navbar(props) {
                     sx={{
                         width: {
                             xs: '100%',
-                            xm:
-                                collapseDrawer && !drawerHover
-                                    ? `calc(100% - ${drawerWidth + 16}px)`
-                                    : `calc(100% - ${miniDrawerWidth + 16}px )`,
+                            xm: `calc(100% - ${drawerWidth + 16}px)`,
                         },
                         ml: {
-                            xm:
-                                collapseDrawer && !drawerHover
-                                    ? `${drawerWidth}px`
-                                    : `${miniDrawerWidth}px`,
+                            xm: `${drawerWidth}px`,
                         },
-                        mt: 1,
                         transition: '225ms, background-color 0s',
                     }}>
                     {children}
@@ -641,35 +478,6 @@ export default function Navbar(props) {
                     <CreateFolder closeModal={closeCreateFolder} />
                 </>
             </Modal>
-
-            <SpeedDial
-                ariaLabel='Action to upload'
-                sx={{
-                    position: 'absolute',
-                    bottom: 24,
-                    right: 16,
-                    display: { xs: 'flex', xm: 'none' },
-                    '& .MuiButtonBase-root.MuiFab-root.MuiSpeedDial-fab': {
-                        borderRadius: '8px',
-                        p: 0,
-                        width: '50px',
-                        height: '50px',
-                    },
-                }}
-                icon={<SpeedDialIcon />}>
-                <SpeedDialAction
-                    icon={<VerticalAlignTopIcon />}
-                    onClick={() => {
-                        fileRef.current?.click();
-                    }}
-                    tooltipTitle='Upload files'
-                />
-                <SpeedDialAction
-                    icon={<FolderOpenOutlinedIcon />}
-                    onClick={openCreateFolder}
-                    tooltipTitle='Create folder'
-                />
-            </SpeedDial>
 
             <Snackbar
                 open={progressState}

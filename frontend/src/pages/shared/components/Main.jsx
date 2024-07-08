@@ -36,7 +36,7 @@ import { handleAxiosError } from '../../../utils/function';
 import { useMessage } from '../../../providers/Provider';
 import useModal from '../../../hooks/useModal';
 import Done from '@mui/icons-material/Done';
-import { Types } from '../../../services/filters';
+import { Types } from '../../../data/filters';
 import Icon from '../../../components/Icon';
 import Select from '../../../components/Select';
 import PageLoading from '../../../components/PageLoading';

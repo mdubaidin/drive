@@ -1,6 +1,5 @@
 import { useCallback } from 'react';
 import { useMessage } from '../providers/Provider';
-import { clearCookie } from '../utils/cookies';
 import { isEmpty, isObject } from '../utils/function';
 
 const useErrorHandler = () => {

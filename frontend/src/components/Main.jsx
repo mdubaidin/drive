@@ -38,7 +38,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import { useMessage } from '../providers/Provider';
 import useModal from '../hooks/useModal';
 import Move from './Move';
-import { Types } from '../services/filters';
+import { Types } from '../data/filters';
 import Icon from './Icon';
 import Select from './Select';
 import { useLocation } from 'react-router-dom';

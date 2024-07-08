@@ -1,4 +1,4 @@
-import { AdobeFiles, CodeFiles, GeneralFiles, MicrosoftFiles } from '../services/extension';
+import { AdobeFiles, CodeFiles, GeneralFiles, MicrosoftFiles } from '../data/extension';
 
 const link = path => process.env.REACT_APP_MAIN_SITE + path;
 

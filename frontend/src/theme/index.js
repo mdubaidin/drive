@@ -31,19 +31,34 @@ const ThemeContextProvider = props => {
 
     const light = useMemo(
         () => ({
+            primary: {
+                main: '#c2e7ff',
+            },
+            secondary: {
+                main: '#3347ce',
+            },
             background: {
                 main: '#FFFFFF',
                 paper: '#FFFFFF',
-                default: '#F7F9FC',
+                default: '#f8fafd',
                 box: '#F7F9FC',
+                button: {
+                    listItemHover: '#e7e8eb',
+                    new: '#FFFFFF',
+                    newHover: '#edf2fc',
+                },
             },
+            text: {
+                secondary: '#818991',
+            },
+            contrast: 'black',
             divider: '#e7e3e3',
             custom: {
                 search: {
                     main: '#edf2fc',
                     focus: 'white',
                 },
-                border: '#e7e3e3',
+                border: '#747775',
                 hoverColor: '#45B5E8',
                 common: 'white',
                 color: 'rgba(0, 0, 0, 0.87)',
@@ -66,22 +81,35 @@ const ThemeContextProvider = props => {
 
     const dark = useMemo(
         () => ({
+            primary: {
+                main: '#004a77',
+            },
+            secondary: {
+                main: '#9cb0e6',
+            },
             background: {
                 main: '#000000',
                 paper: '#141414',
-                default: '#141414',
+                default: '#1b1b1b',
                 box: '#000000',
+                button: {
+                    listItemHover: '#2b2b2b',
+                    new: '#37393b',
+                    newHover: '#43484d',
+                },
             },
             text: {
-                secondary: '#818991',
+                secondary: '#c4c7c5',
             },
+            contrast: 'white',
             divider: '#424242',
             custom: {
                 search: {
-                    main: '#1A1A1A',
+                    main: '#282a2c',
                     focus: '#2F2F2F',
                 },
-                border: '#616161',
+                // border: '#616161',
+                border: '#8e918f',
                 hoverColor: '#fff',
                 common: 'black',
                 appsHover: 'rgb(39, 46, 58)',
@@ -106,11 +134,6 @@ const ThemeContextProvider = props => {
             createTheme({
                 palette: {
                     mode,
-                    primary: {
-                        // main: '#2F2F2F',
-                        main: '#2b86f0',
-                    },
-
                     ...(mode === 'light' ? light : dark),
                 },
                 breakpoints: {
@@ -170,21 +193,31 @@ const ThemeContextProvider = props => {
                                 style: ({ theme }) => ({
                                     padding: '2px 15px',
                                     cursor: 'pointer',
-                                    color: theme.palette.text.secondary,
+                                    color: theme.palette.text.primary,
+                                    fontSize: 14,
+                                    borderRadius: '100px',
+
+                                    '& .MuiListItemIcon-root': {
+                                        color: theme.palette.contrast,
+                                        height: 20,
+                                    },
+
                                     '&:hover': {
-                                        backgroundColor: 'transparent',
+                                        backgroundColor:
+                                            theme.palette.background.button.listItemHover,
                                     },
                                     '&.Mui-selected': {
                                         '&:hover': {
                                             backgroundColor: theme.palette.primary.main,
                                         },
                                         backgroundColor: theme.palette.primary.main,
-                                        borderRadius: '8px',
+                                        height: 32,
                                         '.MuiListItemIcon-root': {
-                                            color: 'white',
+                                            color: theme.palette.contrast,
                                         },
                                         '.MuiListItemText-root': {
-                                            color: 'white',
+                                            color: theme.palette.primary.contrastText,
+                                            m: 0,
                                         },
                                     },
                                 }),
@@ -228,7 +261,7 @@ const ThemeContextProvider = props => {
                     },
                     MuiSelect: {
                         styleOverrides: {
-                            root: {
+                            root: ({ theme }) => ({
                                 borderRadius: '8px',
                                 fontSize: '14px',
                                 fontWeight: 500,
@@ -237,16 +270,14 @@ const ThemeContextProvider = props => {
                                     paddingTop: '2px',
                                     paddingBottom: '2px',
                                     paddingRight: '42px',
-
-                                    // '&.MuiSelect-select': {
-                                    //     display: 'flex',
-                                    //     alignItems: 'center',
-                                    // },
+                                },
+                                '& .MuiOutlinedInput-notchedOutline ': {
+                                    borderColor: theme.palette.custom.border,
                                 },
                                 '& .MuiListItemIcon-root': {
                                     minWidth: '30px',
                                 },
-                            },
+                            }),
                         },
                     },
                     MuiTab: {

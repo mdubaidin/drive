@@ -125,7 +125,7 @@ const SearchBar = () => {
                                 results?.files.length || results?.folders.length ? 0 : null,
                         },
                     }}
-                    placeholder='Search in Files'
+                    placeholder='Search in Drive'
                     value={search}
                     onChange={searchHandler}
                     onKeyDown={e => {

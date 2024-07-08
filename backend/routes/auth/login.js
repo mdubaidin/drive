@@ -1,7 +1,6 @@
 import User from '../../schema/User.js';
 import CustomError from '../../classes/CustomError.js';
 import { generateJwtPair } from '../../utils/jwt/jwt.js';
-import { setTokenCookies } from '../../utils/jwt/token.js';
 
 const login = async function (req, res, next) {
     const { email, password } = req.body;
@@ -18,8 +17,6 @@ const login = async function (req, res, next) {
         const { accessToken, refreshToken } = await generateJwtPair(user);
 
         const userInfo = user.removeSensitiveInfo();
-
-        setTokenCookies(res, accessToken, refreshToken);
 
         res.success({
             user: userInfo,
