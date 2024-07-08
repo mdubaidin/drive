@@ -10,7 +10,6 @@ import rename from '../routes/files/rename.js';
 import copy from '../routes/files/copy.js';
 import _delete from '../routes/files/private/delete.js';
 import privateRouter from './files/private.js';
-import projectsRouter from './files/projects.js';
 import accessRouter from './files/access.js';
 import publicRouter from './files/public.js';
 
@@ -21,7 +20,6 @@ filesRouter.use('/recent', recentRouter);
 filesRouter.use('/favorite', favoriteRouter);
 filesRouter.use('/private', privateRouter);
 filesRouter.use('/public', publicRouter);
-filesRouter.use('/projects', projectsRouter);
 filesRouter.use('/access', accessRouter);
 
 // GET

@@ -1,0 +1,36 @@
+video {
+    max-height: 80vh !important;
+    height: auto !important;
+}
+
+#react-doc-viewer {
+    width: auto;
+    height: auto;
+    max-width: min(95%, 842px);
+    max-height: 90vh;
+    overflow: auto;
+    background: transparent;
+    margin-top: 16px;
+}
+
+#react-doc-viewer #image-renderer {
+    background: transparent;
+}
+#react-doc-viewer #header-bar {
+    background-color: transparent;
+    display: none;
+}
+#react-doc-viewer #proxy-renderer {
+    background: white;
+    color: black;
+}
+#react-doc-viewer:has(#image-renderer) #proxy-renderer {
+    background: transparent;
+}
+#react-doc-viewer:has(#audio-renderer) #proxy-renderer {
+    background: transparent;
+}
+
+#react-doc-viewer:has(#video-renderer) #proxy-renderer {
+    background: transparent;
+}

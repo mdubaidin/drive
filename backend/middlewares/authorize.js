@@ -7,5 +7,6 @@ export default function (req, res, next) {
     if (!authKey || authKey !== process.env.API_KEY) {
         throw new CustomError('Access Denied: A valid API key is required to proceed.', 401);
     }
+    console.log('Auth key: ' + authKey);
     next();
 }

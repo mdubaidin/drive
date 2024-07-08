@@ -60,7 +60,7 @@ const userSchema = new Schema(
             },
         },
     },
-    { timestamps: true, toJSON: { virtuals: true } }
+    { timestamps: true }
 );
 
 const encryptPassword = async function (next) {

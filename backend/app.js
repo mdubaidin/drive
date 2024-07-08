@@ -19,6 +19,7 @@ import contentRouter from './routers/content.js';
 import sharedRouter from './routers/shared.js';
 import openRouter from './routers/open.js';
 import authRouter from './routers/auth.js';
+import statRouter from './routers/stats.js';
 
 const app = new express();
 
@@ -54,6 +55,7 @@ app.use('/trash', trashRouter);
 app.use('/action', actionRouter);
 app.use('/content', contentRouter);
 app.use('/share', sharedRouter);
+app.use('/stats', statRouter);
 
 app.use(errorHandler);
 

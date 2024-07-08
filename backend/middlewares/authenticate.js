@@ -19,6 +19,8 @@ export default function (req, res, next) {
 
         req.user = user;
         req.user.id = new Types.ObjectId(user.id);
+        req.user.storagePath = `${user.id}/files/`;
+        req.params.key = req.params.key || '';
 
         next();
     } catch (err) {

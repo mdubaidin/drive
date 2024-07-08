@@ -60,7 +60,7 @@ const initiateEmail = async function (req, res, next) {
             html: template, // html body
         });
 
-        res.success({});
+        res.success('');
     } catch (e) {
         next(e);
     }

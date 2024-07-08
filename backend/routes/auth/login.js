@@ -22,7 +22,7 @@ const login = async function (req, res, next) {
         setTokenCookies(res, accessToken, refreshToken);
 
         res.success({
-            ...userInfo,
+            user: userInfo,
             accessToken,
             refreshToken,
         });
