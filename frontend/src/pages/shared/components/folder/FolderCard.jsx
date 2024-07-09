@@ -24,9 +24,9 @@ import { useMessage } from '../../../../providers/Provider';
 import useModal from '../../../../hooks/useModal';
 import { handleAxiosError } from '../../../../utils/function';
 import Share from '../../../../components/Share';
-import { useUser } from '../../../../hooks/Authorize';
 import Rename from '../Rename';
 import useMedia from '../../../../hooks/useMedia';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 const sharedFolder = {
     by: '/shared-by-me/folder/',
@@ -57,7 +57,7 @@ const FolderCard = props => {
     } = useMenu();
     const xsLayout = useMedia('(max-width: 576px)');
     const checkboxRef = useRef();
-    const user = useUser();
+    const user = useAuthUser();
 
     const isAccessable = useMemo(
         () =>

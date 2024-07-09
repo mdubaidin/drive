@@ -28,11 +28,11 @@ import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import useModal from '../../../../hooks/useModal';
 import { getFileIcon, handleAxiosError } from '../../../../utils/function';
 import Share from '../../../../components/Share';
-import { useUser } from '../../../../hooks/Authorize';
 import { useMemo } from 'react';
 import Preview from '../Preview/Preview';
 import useMedia from '../../../../hooks/useMedia';
 import Rename from '../Rename';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 const FileCard = props => {
     const {
@@ -51,7 +51,7 @@ const FileCard = props => {
     const [preview, setPreview] = useState(null);
     const [fileIcon, setFileIcon] = useState(null);
     const [loading, setLoading] = useState(false);
-    const user = useUser();
+    const user = useAuthUser();
     const xsLayout = useMedia('(max-width: 576px)');
     const { modalState: renameState, closeModal: closeRename, openModal: openRename } = useModal();
     const { modalState: shareState, closeModal: closeShare, openModal: openShare } = useModal();

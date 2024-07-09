@@ -1,6 +1,5 @@
 import { Box, Card, createTheme, ThemeProvider } from '@mui/material';
-import React, { useState } from 'react';
-import { Outlet } from 'react-router-dom';
+import React from 'react';
 
 const theme = createTheme({
     palette: {
@@ -38,10 +37,8 @@ const theme = createTheme({
     },
 });
 
-const AuthLayout = () => {
-    const [isValid, setIsValid] = useState(true);
-
-    return isValid ? (
+const Layout = ({ children }) => {
+    return (
         <ThemeProvider theme={theme}>
             <Box
                 sx={{
@@ -59,13 +56,11 @@ const AuthLayout = () => {
                         transition: 'all 0.2s',
                     }}
                     elevation={0}>
-                    <Outlet context={{ isValid, setIsValid }} />
+                    {children}
                 </Card>
             </Box>
         </ThemeProvider>
-    ) : (
-        <Outlet context={{ isValid, setIsValid }} />
     );
 };
 
-export default AuthLayout;
+export default Layout;

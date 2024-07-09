@@ -6,9 +6,9 @@ import './utils/axios';
 import Folders from './pages/Folders';
 import Recent from './pages/Recent';
 import Trash from './pages/Trash';
-import Favorite from './pages/favorite';
+import Favorite from './pages/Favorite';
 import Search from './pages/Search';
-import MyFiles from './pages/MyDrive';
+import MyDrive from './pages/MyDrive';
 import SharedWithMe from './pages/shared/SharedWithMe';
 import SharedWithFolder from './pages/shared/SharedWithMe/Folder';
 import SharedByFolder from './pages/shared/SharedByMe/Folder';
@@ -17,28 +17,28 @@ import FileViewer from './components/FileViewer';
 import FolderViewer from './components/folderViewer/FolderViewer';
 import Folder from './components/folderViewer/Folder';
 import Provider from './providers/Provider';
-import AuthLayout from './auth/AuthLayout';
 import CreateAccount from './auth/CreateAccount';
 import Identify from './auth/Identify';
 import Login from './auth/Login';
 import ResetPassword from './auth/ResetPassword';
 import NotFound from './components/NotFound';
-import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
+import Settings from './pages/settings';
+import AuthRouter from './providers/AuthRouter';
+import RequireAuth from '@auth-kit/react-router/RequireAuth';
 
 const App = () => {
     return (
         <Provider>
             <Routes>
-                <Route path='auth' element={<AuthLayout />}>
-                    <Route index element={<NotFound />} />
+                <Route path='auth'>
                     <Route path='sign-up' element={<CreateAccount />} />
                     <Route path='identify' element={<Identify />} />
                     <Route path='sign-in' element={<Login />} />
                     <Route path='reset-password' element={<ResetPassword />} />
                 </Route>
 
-                <Route path='/' element={<AuthOutlet fallbackPath='/auth/sign-in' />}>
-                    <Route index element={<MyFiles />} />
+                <Route path='/' element={<AuthRouter />}>
+                    <Route index element={<MyDrive />} />
                     <Route path='/folder/:id' element={<Folders />} />
                     <Route path='/recent' element={<Recent />} />
                     <Route path='/favorite' element={<Favorite />} />
@@ -49,6 +49,15 @@ const App = () => {
                     <Route path='/shared-by-me' element={<SharedByMe />} />
                     <Route path='/shared-by-me/folder/:id' element={<SharedByFolder />} />
                 </Route>
+                <Route
+                    path='settings'
+                    element={
+                        <RequireAuth fallbackPath='/auth/sign-in'>
+                            <Settings />
+                        </RequireAuth>
+                    }
+                />
+
                 <Route path='/file/d/:id' element={<FileViewer />} />
                 <Route path='/folder/d/:id' element={<FolderViewer />} />
                 <Route path='/folders/:id' element={<Folder />} />

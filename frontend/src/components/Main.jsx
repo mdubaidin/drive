@@ -319,7 +319,7 @@ const Main = props => {
                     item
                     xs
                     sx={{
-                        height: { xs: 'calc(100dvh - 85px)', md: 'calc(100dvh - 90px)' },
+                        height: 'calc(100dvh - 80px)',
                         backgroundColor: 'background.main',
                         borderRadius: '12px',
                     }}>

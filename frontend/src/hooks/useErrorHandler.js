@@ -1,9 +1,11 @@
 import { useCallback } from 'react';
 import { useMessage } from '../providers/Provider';
 import { isEmpty, isObject } from '../utils/function';
+import useSignOut from 'react-auth-kit/hooks/useSignOut';
 
 const useErrorHandler = () => {
     const { showError } = useMessage();
+    const signOut = useSignOut();
 
     const getMessage = useCallback(function (error) {
         const field = Object.keys(error)[0];
@@ -75,11 +77,13 @@ const useErrorHandler = () => {
                 if (status === 400)
                     return showError(message || `Ensure you've entered valid information.`);
 
-                if (status === 401)
+                if (status === 401) {
+                    signOut();
                     return showError(
                         message ||
                             `Unauthorized: Access Denied. Verify your credentials and try again. `
                     );
+                }
 
                 if (status === 403) {
                     return showError(
@@ -111,7 +115,7 @@ const useErrorHandler = () => {
                 return showError(error.message);
             }
         },
-        [showError, getMessage]
+        [showError, getMessage] // eslint-disable-line react-hooks/exhaustive-deps
     );
 
     return errorHandler;

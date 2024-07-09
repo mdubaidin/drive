@@ -24,7 +24,6 @@ import { Link, useParams } from 'react-router-dom';
 import Icon from './Icon';
 import useMedia from '../hooks/useMedia';
 import axios from 'axios';
-import AuthorizationProvider, { useUser } from '../hooks/Authorize';
 import PageLoading from './PageLoading';
 import Error from './Error';
 import Image from './Image';
@@ -32,6 +31,8 @@ import { getCookie } from '../utils/cookies';
 import useLoader from '../hooks/useLoader';
 import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 import Provider, { useMessage } from '../providers/Provider';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import AuthProvider from '../providers/AuthProvider';
 
 const theme = createTheme({
     palette: {
@@ -50,7 +51,7 @@ const FileViewer = ({ access }) => {
     const [error, setError] = useState(false);
     const [preview, setPreview] = useState([]);
     const { circular, start, end, loaderState } = useLoader({ size: 56, color: 'primary.main' });
-    const authUser = useUser();
+    const authUser = useAuthUser();
     const { showError, showResponse } = useMessage();
     const {
         anchorEl: anchorElProfile,
@@ -484,9 +485,9 @@ const Authorize = () => {
                 {access ? (
                     <FileViewer access={access} />
                 ) : (
-                    <AuthorizationProvider>
+                    <AuthProvider>
                         <FileViewer access={access} />
-                    </AuthorizationProvider>
+                    </AuthProvider>
                 )}
             </Provider>
         </PageLoading>

@@ -14,6 +14,7 @@ import IntroBox from './components/IntroBox';
 import { useNavigate, Link } from 'react-router-dom';
 import Image from '../components/Image';
 import Title from './components/Title';
+import Layout from './Layout';
 
 const initialFormInput = { name: '', email: '', password: '', otp: '' };
 
@@ -31,9 +32,11 @@ const Main = () => {
     const [step, setStep] = useState(0);
 
     return (
-        <FormContext.Provider value={{ data, setData, step, setStep }}>
-            {React.createElement(Steps[step])}
-        </FormContext.Provider>
+        <Layout>
+            <FormContext.Provider value={{ data, setData, step, setStep }}>
+                {React.createElement(Steps[step])}
+            </FormContext.Provider>
+        </Layout>
     );
 };
 

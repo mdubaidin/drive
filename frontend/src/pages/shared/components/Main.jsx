@@ -44,7 +44,7 @@ import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { useMenu } from '../../../hooks/useMenu';
 import Share from '../../../components/Share';
-import { useUser } from '../../../hooks/Authorize';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 // import { useUser } from '../../hooks/Authorize';
 
 const initialSelection = { files: [], folders: [] };
@@ -70,7 +70,7 @@ const Main = props => {
     } = useModal();
     const xmLayout = useMedia('(max-width: 1024px)');
     const { showError, showResponse } = useMessage();
-    const user = useUser();
+    const user = useAuthUser();
     const { anchorEl: anchorElSort, openMenu: openSortMenu, closeMenu: closeSortMenu } = useMenu();
     const { modalState: shareState, closeModal: closeShare, openModal: openShare } = useModal();
 

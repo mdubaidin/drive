@@ -6,12 +6,12 @@ import { getParentId, handleAxiosError, parseKB } from '../../utils/function';
 import CloseIcon from '@mui/icons-material/Close';
 import axios from 'axios';
 import { useMessage } from '../../providers/Provider';
-import { useUser } from '../../hooks/Authorize';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 const FileDetails = props => {
     const { details, detailsPanelClose } = props;
     const [location, setLocation] = useState(null);
-    const user = useUser();
+    const user = useAuthUser();
 
     const { showError } = useMessage();
 

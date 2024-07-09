@@ -32,7 +32,7 @@ const StorageProgress = styled(LinearProgress)(({ theme }) => ({
 }));
 
 const Drawer = props => {
-    const { openSettingsMenu, openUploadMenu } = props;
+    const { openUploadMenu } = props;
     const [stats, setStats] = useState(null);
     const errorHandler = useErrorHandler();
     const { showError } = useMessage();
@@ -81,12 +81,15 @@ const Drawer = props => {
                         sx={{
                             borderRadius: '16px',
                             boxShadow:
-                                '0 1px 2px 0 rgba(60,64,67,.3),0 1px 3px 1px rgba(60,64,67,.15)',
-                            padding: '18px 20px 18px 16px',
-                            width: 100,
+                                '0px 1px 5px 0px rgba(0,0,0,0.12), 0 1px 2px 0 rgba(0,0,0,0.02),0 1px 3px 1px rgba(0,0,0,0.02)',
+                            padding: '18px 20px 18px 18px',
+                            width: 101,
                             height: 56,
                             backgroundColor: 'background.button.new',
                             color: 'contrast',
+                            '& .MuiButton-startIcon': {
+                                marginRight: '12px',
+                            },
                             '.MuiButton-startIcon>*:nth-of-type(1)': {
                                 fontSize: 24,
                             },
@@ -199,7 +202,8 @@ const Drawer = props => {
                 <List sx={{ px: 1, display: { xs: 'block', sm: 'none' } }}>
                     <ListItem
                         disablePadding
-                        onClick={openSettingsMenu}
+                        LinkComponent={Link}
+                        to='/settings'
                         sx={{
                             '&:hover': {
                                 backgroundColor: 'custom.cardHover',

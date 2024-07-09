@@ -22,7 +22,7 @@ import axios from 'axios';
 import { env, getItemIds, handleAxiosError } from '../utils/function';
 import { useMessage } from '../providers/Provider';
 import useLoader from '../hooks/useLoader';
-import { useUser } from '../hooks/Authorize';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 const GeneralAccess = {
     restricted: {
@@ -50,7 +50,7 @@ const Share = props => {
     const [fileAccessType, setFileAccessType] = useState('viewer');
     const [usersToUpdate, setUsersToUpdate] = useState({});
     const { loaderState, linear, start, end } = useLoader({ size: 50 });
-    const user = useUser();
+    const user = useAuthUser();
     const { showError, showResponse } = useMessage();
 
     const isEmailExists = useCallback(
@@ -68,7 +68,7 @@ const Share = props => {
 
                 if (!success) return showError(message);
 
-                newUserIds[index] = { email, id: user.id };
+                newUserIds[index] = { email, id: user._id };
             } catch (e) {
                 handleAxiosError(e, showError);
             } finally {
@@ -364,14 +364,14 @@ const Share = props => {
                                             variant='body2'
                                             fontWeight={500}
                                             lineHeight={0.8}>
-                                            {user.email === email ? user.fullName : email}
+                                            {user.email === email ? user.name : email}
                                         </Typography>
                                     ) : (
                                         <Typography
                                             variant='body2'
                                             fontWeight={500}
                                             lineHeight={0.8}>
-                                            {user.fullName}
+                                            {user.name}
                                         </Typography>
                                     )}
 

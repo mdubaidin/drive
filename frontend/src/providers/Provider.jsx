@@ -1,8 +1,7 @@
 import React, { createContext, useCallback, useContext } from 'react';
 import useSnack from '../hooks/useSnack';
-import ThemeContextProvider from './../theme';
+import ThemeProvider from './../theme';
 import AuthProvider from './AuthProvider';
-import Navbar from '../layout/Navbar';
 
 const ProviderContext = createContext();
 
@@ -10,14 +9,14 @@ const Provider = ({ children }) => {
     const { SnackBar, showMessage } = useSnack();
 
     return (
-        <ThemeContextProvider>
+        <ThemeProvider>
             <ProviderContext.Provider value={{ showMessage }}>
                 <AuthProvider>
-                    <Navbar>{children}</Navbar>
+                    {children}
                     {SnackBar}
                 </AuthProvider>
             </ProviderContext.Provider>
-        </ThemeContextProvider>
+        </ThemeProvider>
     );
 };
 

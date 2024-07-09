@@ -1,12 +1,4 @@
-import {
-    Card,
-    FormControl,
-    Grid,
-    IconButton,
-    InputBase,
-    Typography,
-    useFormControl,
-} from '@mui/material';
+import { Card, FormControl, Grid, InputBase, Typography, useFormControl } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import React, { useEffect, useRef, useState } from 'react';
 import axios from 'axios';
@@ -14,7 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import { getFileIcon, handleAxiosError } from '../utils/function';
 import Icon from './Icon';
-import TuneIcon from '@mui/icons-material/Tune';
+// import TuneIcon from '@mui/icons-material/Tune';
 import { useMessage } from '../providers/Provider';
 
 const SearchWrapper = styled('div')(({ theme }) => ({
@@ -40,16 +32,16 @@ const IconWrapperLeft = styled('div')(({ theme }) => ({
     zIndex: 10,
 }));
 
-const IconWrapperRight = styled('div')(({ theme }) => ({
-    padding: theme.spacing(0, 1),
-    height: '100%',
-    position: 'absolute',
-    right: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 10,
-}));
+// const IconWrapperRight = styled('div')(({ theme }) => ({
+//     padding: theme.spacing(0, 1),
+//     height: '100%',
+//     position: 'absolute',
+//     right: 0,
+//     display: 'flex',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     zIndex: 10,
+// }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
@@ -139,11 +131,11 @@ const SearchBar = () => {
 
                 <SearchResults results={results} />
             </FormControl>
-            <IconWrapperRight>
+            {/* <IconWrapperRight>
                 <IconButton sx={{ display: { xs: 'none', md: 'inline-flex' } }}>
                     <TuneIcon />
                 </IconButton>
-            </IconWrapperRight>
+            </IconWrapperRight> */}
         </SearchWrapper>
     );
 };

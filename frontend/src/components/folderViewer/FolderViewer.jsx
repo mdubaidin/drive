@@ -20,10 +20,10 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Icon from '../Icon';
 import axios from 'axios';
 import { useMessage } from '../../providers/Provider';
-import { useUser } from '../../hooks/Authorize';
 import PageLoading from '../PageLoading';
 import Image from '../Image';
 import { getCookie } from '../../utils/cookies';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 const FolderViewer = ({ access, subFolder }) => {
     const [files, setFiles] = useState(null);
@@ -31,7 +31,7 @@ const FolderViewer = ({ access, subFolder }) => {
     const [folders, setFolders] = useState(null);
     const [content, setContent] = useState(null);
     // const [error, setError] = useState(false);
-    const authUser = useUser();
+    const authUser = useAuthUser();
 
     const { showError, showResponse } = useMessage();
     const {
@@ -202,7 +202,7 @@ const FolderViewer = ({ access, subFolder }) => {
                                                         overflow: 'hidden',
                                                         textOverflow: 'ellipsis',
                                                     }}>
-                                                    {user.firstName + ' ' + user.lastName}
+                                                    {user.name}
                                                 </Typography>
                                                 <Typography
                                                     variant='caption'

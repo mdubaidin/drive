@@ -1,33 +1,27 @@
-import { createTheme } from '@mui/material';
+import { createTheme, useMediaQuery } from '@mui/material';
 import React, { useMemo, useContext, useState, createContext, useLayoutEffect } from 'react';
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material';
 import { getCookie, setCookie } from '../utils/cookies';
 
-const ThemeContext = createContext({ toggleTheme: () => {} });
+const ThemeContext = createContext({ setTheme: () => {}, theme: 'system' });
 
-const ThemeContextProvider = props => {
-    const preferTheme = systemPreferTheme();
-    const [mode, setMode] = useState(preferTheme || 'dark');
+const ThemeProvider = props => {
+    const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
+    const preferTheme = getCookie('theme-options');
 
-    function toggleTheme() {
-        setMode(prevMode => {
-            const theme = prevMode === 'light' ? 'dark' : 'light';
-            setCookie('P13N', theme);
-            return theme;
-        });
-    }
-
-    function systemPreferTheme() {
-        if (window.matchMedia('(prefers-color-scheme: dark)').matches) return 'dark';
-        else if (window.matchMedia('(prefers-color-scheme: light)').matches) return 'light';
-        else return 'dark';
-    }
+    const [mode, setMode] = useState('dark');
+    const [theme, setTheme] = useState(preferTheme || 'system');
 
     useLayoutEffect(() => {
-        console.log('useLayout');
-        const theme = getCookie('P13N');
-        if (theme) setMode(theme || preferTheme);
-    }, [mode, preferTheme]);
+        if (theme === 'system') {
+            const preferTheme = prefersDarkMode ? 'dark' : 'light';
+            setCookie('theme-options', theme);
+            return setMode(preferTheme);
+        }
+
+        setCookie('theme-options', theme);
+        setMode(theme);
+    }, [prefersDarkMode, theme]);
 
     const light = useMemo(
         () => ({
@@ -129,7 +123,7 @@ const ThemeContextProvider = props => {
         []
     );
 
-    const theme = useMemo(
+    const baseTheme = useMemo(
         () =>
             createTheme({
                 palette: {
@@ -293,21 +287,21 @@ const ThemeContextProvider = props => {
     );
 
     return (
-        <ThemeContext.Provider value={{ toggleTheme, mode }}>
-            <ThemeProvider theme={theme}>
+        <ThemeContext.Provider value={{ setTheme, theme }}>
+            <MuiThemeProvider theme={baseTheme}>
                 <CssBaseline />
                 {props.children}
-            </ThemeProvider>
+            </MuiThemeProvider>
         </ThemeContext.Provider>
     );
 };
 
-export default ThemeContextProvider;
-
 const useTheme = () => {
-    const toggleTheme = useContext(ThemeContext).toggleTheme;
-    const mode = useContext(ThemeContext).mode;
-    return { toggleTheme, mode };
+    const { setTheme, theme } = useContext(ThemeContext);
+
+    return { setTheme, theme };
 };
 
-export { useTheme };
+export { useTheme, ThemeContext };
+
+export default ThemeProvider;

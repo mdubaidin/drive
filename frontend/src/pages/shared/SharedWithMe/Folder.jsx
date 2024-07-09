@@ -8,13 +8,13 @@ import eventEmitter from '../../../utils/eventEmitter';
 import { handleAxiosError, setSessionData } from '../../../utils/function';
 import Main from '../components/Main';
 import { useMessage } from '../../../providers/Provider';
-import { useUser } from '../../../hooks/Authorize';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 const SharedFolders = () => {
     const [files, setFiles] = useState(null);
     const [folders, setFolders] = useState(null);
     const [content, setContent] = useState(null);
-    const user = useUser();
+    const user = useAuthUser();
     const { showError } = useMessage();
     const { id } = useParams();
 

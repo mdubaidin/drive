@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 import { Link, useLocation } from 'react-router-dom';
 
@@ -27,15 +27,12 @@ import {
 //mui icons
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
 import MenuIcon from '@mui/icons-material/Menu';
-import LightModeIcon from '@mui/icons-material/LightMode';
 import CloseIcon from '@mui/icons-material/Close';
-import DarkModeIcon from '@mui/icons-material/DarkMode';
 
 //react component
 import Image from '../components/Image';
 
 //services
-import { useTheme } from '../theme';
 import { useMenu } from '../hooks/useMenu';
 
 import SearchBar from '../components/SearchBar';
@@ -51,6 +48,7 @@ import { useDropzone } from 'react-dropzone';
 import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
 import Drawer from './Drawer';
 import AccountMenu from './AccountMenu';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 
 const drawerWidth = 256;
 
@@ -89,21 +87,13 @@ export default function Navbar(props) {
     const { showError } = useMessage();
     const location = useLocation();
 
-    const user = useMemo(() => ({ firstName: 'John', lastName: '', email: '' }), []);
-
-    const { toggleTheme, mode } = useTheme();
+    const user = useAuthUser();
 
     // useMenu
     const {
         anchorEl: anchorElProfile,
         openMenu: openProfileMenu,
         closeMenu: closeProfileMenu,
-    } = useMenu();
-
-    const {
-        anchorEl: anchorElSettings,
-        openMenu: openSettingsMenu,
-        closeMenu: closeSettingsMenu,
     } = useMenu();
 
     const fileHandler = async e => {
@@ -250,7 +240,7 @@ export default function Navbar(props) {
                     borderBottom: '1px solid custom.border',
                     color: 'text.primary',
                     zIndex: { xs: 1200, xm: 1250 },
-                    pb: 1,
+                    pb: 0.5,
                 }}>
                 <Toolbar
                     sx={{
@@ -269,14 +259,14 @@ export default function Navbar(props) {
                             display='flex'
                             alignItems='center'>
                             <IconButton
-                                onClick={handleDrawerToggle}
+                                onClick={() => handleDrawerToggle()}
                                 edge='start'
                                 sx={{
                                     ml: 0.2,
                                     mr: 1,
-                                    display: { xs: 'inline-flex', xm: 'none' },
+                                    display: { xm: 'none' },
                                 }}>
-                                <MenuIcon sx={{ fontSize: '30px' }} />
+                                <MenuIcon />
                             </IconButton>
 
                             <Box
@@ -298,24 +288,9 @@ export default function Navbar(props) {
                                 alignItems='center'
                                 justifyContent='flex-end'
                                 spacing={0}>
-                                <IconButton onClick={openSettingsMenu}>
+                                <IconButton LinkComponent={Link} to='/settings'>
                                     <SettingsIcon />
                                 </IconButton>
-                                <Menu
-                                    anchorEl={anchorElSettings}
-                                    open={Boolean(anchorElSettings)}
-                                    onClose={closeSettingsMenu}>
-                                    <MenuItem onClick={toggleTheme}>
-                                        <ListItemIcon>
-                                            {mode === 'dark' ? (
-                                                <LightModeIcon fontSize='small' />
-                                            ) : (
-                                                <DarkModeIcon fontSize='small' />
-                                            )}
-                                        </ListItemIcon>
-                                        Appearance
-                                    </MenuItem>
-                                </Menu>
                             </Stack>
                         </Grid>
 
@@ -368,7 +343,7 @@ export default function Navbar(props) {
                             backgroundImage: 'none',
                         },
                     }}>
-                    <Drawer openUploadMenu={openUploadMenu} openSettingsMenu={openSettingsMenu} />
+                    <Drawer openUploadMenu={openUploadMenu} />
                 </MuiDrawer>
                 <MuiDrawer
                     variant='permanent'
@@ -381,7 +356,7 @@ export default function Navbar(props) {
                             border: 'none',
                         },
                     }}>
-                    <Drawer openUploadMenu={openUploadMenu} openSettingsMenu={openSettingsMenu} />
+                    <Drawer openUploadMenu={openUploadMenu} />
                 </MuiDrawer>
             </Box>
 
