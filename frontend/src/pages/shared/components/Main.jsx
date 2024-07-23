@@ -123,7 +123,7 @@ const Main = props => {
                     sharedUser => sharedUser.userId === user._id && sharedUser.access === 'editor'
                 )
         );
-    }, [user, selectedData.files, selectedData.folders]);
+    }, [user._id, selectedData.files, selectedData.folders]);
 
     const updateSelectedFiles = useCallback(
         (checked, id, selection) => {
@@ -197,7 +197,7 @@ const Main = props => {
         } catch (e) {
             handleAxiosError(e, showError);
         }
-    }, [selected, showError, refresh, showResponse, user]);
+    }, [selected, showError, refresh, showResponse, user._id]);
 
     const downloadSelected = async () => {
         showResponse('Downloading...');
