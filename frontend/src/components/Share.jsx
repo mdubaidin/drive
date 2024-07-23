@@ -50,7 +50,7 @@ const Share = props => {
     const [fileAccessType, setFileAccessType] = useState('viewer');
     const [usersToUpdate, setUsersToUpdate] = useState({});
     const { loaderState, linear, start, end } = useLoader({ size: 50 });
-    const user = useAuthUser();
+    const user = useAuthUser() || {};
     const { showError, showResponse } = useMessage();
 
     const isEmailExists = useCallback(

@@ -164,25 +164,24 @@ const Drawer = props => {
                     ))}
                     {stats ? (
                         <>
-                            <Box px={2} my={2}>
+                            <Box px={2} my={1} width='90%'>
                                 <StorageProgress
                                     variant='determinate'
-                                    value={(stats.used / stats.storage) * 100}
+                                    value={(stats.used.used / stats.storage) * 100}
                                     sx={{ borderRadius: '5px' }}
                                 />
                                 <Typography
                                     variant='caption'
                                     component='div'
                                     my={1}
-                                    color='text.primary'>
-                                    {parseKB(stats.used)} of {parseKB(stats.storage)} used
+                                    color='text.secondary'>
+                                    {parseKB(stats.used.used)} of {parseKB(stats.storage)} used
                                 </Typography>
                                 <Button
                                     variant='text'
                                     color='secondary'
                                     fullWidth
                                     sx={{
-                                        mt: 1,
                                         borderRadius: '100px',
                                         border: '1px solid',
                                         borderColor: 'custom.border',
@@ -202,15 +201,18 @@ const Drawer = props => {
                 <List sx={{ px: 1, display: { xs: 'block', sm: 'none' } }}>
                     <ListItem
                         disablePadding
-                        LinkComponent={Link}
-                        to='/settings'
                         sx={{
                             '&:hover': {
                                 backgroundColor: 'custom.cardHover',
                                 borderRadius: '8px',
                             },
                         }}>
-                        <ListItemButton disableRipple disableTouchRipple variant='sidebarButton'>
+                        <ListItemButton
+                            disableRipple
+                            disableTouchRipple
+                            variant='sidebarButton'
+                            LinkComponent={Link}
+                            to='/settings'>
                             <ListItemIcon
                                 sx={{
                                     minWidth: '30px',

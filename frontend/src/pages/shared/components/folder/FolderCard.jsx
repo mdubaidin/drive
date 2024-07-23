@@ -57,13 +57,13 @@ const FolderCard = props => {
     } = useMenu();
     const xsLayout = useMedia('(max-width: 576px)');
     const checkboxRef = useRef();
-    const user = useAuthUser();
+    const user = useAuthUser() || {};
 
     const isAccessable = useMemo(
         () =>
             userId === user._id ||
             sharedWith?.find(sharedUser => sharedUser.userId === user._id)?.access === 'editor',
-        [user, userId, sharedWith]
+        [user._id, userId, sharedWith]
     );
 
     const navigate = useNavigate();

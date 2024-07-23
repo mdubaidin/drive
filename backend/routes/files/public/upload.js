@@ -34,7 +34,8 @@ export default async function (req, res, next) {
                 platform: platform || 'files',
                 access,
             });
-            uploaded.push(data);
+
+            if (data) uploaded.push(data);
         }
 
         await session.commitTransaction();

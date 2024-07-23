@@ -51,7 +51,7 @@ const FileViewer = ({ access }) => {
     const [error, setError] = useState(false);
     const [preview, setPreview] = useState([]);
     const { circular, start, end, loaderState } = useLoader({ size: 56, color: 'primary.main' });
-    const authUser = useAuthUser();
+    const authUser = useAuthUser() || {};
     const { showError, showResponse } = useMessage();
     const {
         anchorEl: anchorElProfile,
@@ -116,7 +116,7 @@ const FileViewer = ({ access }) => {
         } catch (e) {
             handleAxiosError(e, showError);
         }
-    }, [showError, id, authUser]);
+    }, [showError, id, authUser._id]);
 
     const download = useCallback(async () => {
         showResponse('Downloading...');

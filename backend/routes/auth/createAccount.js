@@ -1,5 +1,5 @@
 import User from '../../schema/User.js';
-import { generateOTP, generateTemplate } from '../../utils/functions.js';
+import { generateOTP, generateTemplate } from '../../utils/utils.js';
 import OTP from '../../schema/OTP.js';
 import CustomError from '../../classes/CustomError.js';
 import fs from 'fs';

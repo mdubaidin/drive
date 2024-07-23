@@ -29,7 +29,8 @@ export default async function (req, res, next) {
                 session,
                 platform,
             });
-            uploaded.push(data);
+
+            if (data) uploaded.push(data);
         }
 
         await session.commitTransaction();

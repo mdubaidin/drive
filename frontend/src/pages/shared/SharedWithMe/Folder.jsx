@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useState } from 'react';
 
 //mui component
 
@@ -14,7 +14,8 @@ const SharedFolders = () => {
     const [files, setFiles] = useState(null);
     const [folders, setFolders] = useState(null);
     const [content, setContent] = useState(null);
-    const user = useAuthUser();
+    const authUser = useAuthUser();
+    const user = useMemo(() => authUser || {}, [authUser]);
     const { showError } = useMessage();
     const { id } = useParams();
 
@@ -57,7 +58,7 @@ const SharedFolders = () => {
                 handleAxiosError(e, showError);
             }
         },
-        [id, showError, user]
+        [id, showError, user._id]
     );
 
     // useEffect(() => {

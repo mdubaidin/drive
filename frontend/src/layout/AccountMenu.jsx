@@ -1,6 +1,8 @@
-import { Avatar, Button, Grid, Menu, Stack, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, Menu, Stack, Typography } from '@mui/material';
 import React from 'react';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import { Link } from 'react-router-dom';
+import Image from '../components/Image';
 
 const AccountMenu = ({ anchorElProfile, closeProfileMenu, user }) => {
     const signOut = useSignOut();
@@ -12,67 +14,74 @@ const AccountMenu = ({ anchorElProfile, closeProfileMenu, user }) => {
             onClose={closeProfileMenu}
             sx={{
                 '.MuiPaper-root.MuiMenu-paper.MuiPopover-paper': {
-                    width: 'min(100%, 320px)',
+                    width: 'min(100%, 350px)',
                     boxShadow:
                         'rgba(0, 0, 0, 0.1) 0px 20px 25px -5px, rgba(0, 0, 0, 0.04) 0px 10px 10px -5px',
                     border: '1px solid #00000017',
                     bgcolor: 'custom.menu',
-                    px: 0.5,
-                    pt: 1.5,
+                    padding: 0,
+                    mt: 2,
                 },
             }}>
-            <Grid container spacing={2} alignItems='center' flexWrap='nowrap'>
-                <Grid item>
-                    <Avatar alt={user.name} src={``} sx={{ width: 100, height: 100 }} />
-                </Grid>
-                <Grid item xs={8}>
+            <Stack direction={'row'} justifyContent='space-between' alignItems='center' mb={2}>
+                <Stack direction='row' alignItems='flex-end' spacing={1}>
+                    <Image name='logo.png' sx={{ height: 25 }} />
                     <Typography
-                        variant='substitle1'
-                        component='div'
-                        fontWeight={600}
-                        sx={{
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                        }}>
-                        {user.name}
+                        variant='subtitle1'
+                        color='text.secondary'
+                        lineHeight={1.3}
+                        fontWeight={500}>
+                        Cloud Drive
                     </Typography>
-                    <Typography
-                        variant='caption'
-                        component='div'
-                        sx={{
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                        }}>
-                        {user.email}
-                    </Typography>
-                    <Typography
-                        variant='caption'
-                        component='a'
-                        href='#'
-                        color='secondary.main'
-                        display='block'>
-                        My Drive account
-                    </Typography>
-                    <Typography
-                        variant='caption'
-                        component='a'
-                        href='#'
-                        color='secondary.main'
-                        display='block'>
-                        My Profile
-                    </Typography>
-                </Grid>
-            </Grid>
-            <Stack direction='row' mt={2}>
-                {/* <Button variant='text' fullWidth>
-                    Add account
-                </Button> */}
-                <Button variant='text' onClick={signOut} fullWidth>
+                </Stack>
+                <Button
+                    variant='text'
+                    sx={{ color: 'text.secondary' }}
+                    onClick={() => {
+                        signOut();
+                        closeProfileMenu();
+                        window.location.replace('/');
+                    }}>
                     Sign out
                 </Button>
             </Stack>
+            <Box px={0.5} pt={1.2} pb={2}>
+                <Grid container spacing={2} alignItems='center' flexWrap='nowrap'>
+                    <Grid item>
+                        <Avatar alt={user.name} src={``} sx={{ width: 100, height: 100 }} />
+                    </Grid>
+                    <Grid item xs={8}>
+                        <Typography
+                            variant='h6'
+                            sx={{
+                                whiteSpace: 'nowrap',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                            }}>
+                            {user.name}
+                        </Typography>
+                        <Typography
+                            variant='caption'
+                            component='div'
+                            sx={{
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                            }}>
+                            {user.email}
+                        </Typography>
+                        <Button
+                            variant='text'
+                            color='secondary'
+                            sx={{ p: 0 }}
+                            LinkComponent={Link}
+                            to='/settings/account'
+                            onClick={closeProfileMenu}>
+                            Manage your account
+                        </Button>
+                    </Grid>
+                </Grid>
+            </Box>
         </Menu>
     );
 };

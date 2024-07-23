@@ -31,7 +31,7 @@ const FolderViewer = ({ access, subFolder }) => {
     const [folders, setFolders] = useState(null);
     const [content, setContent] = useState(null);
     // const [error, setError] = useState(false);
-    const authUser = useAuthUser();
+    const authUser = useAuthUser() || {};
 
     const { showError, showResponse } = useMessage();
     const {

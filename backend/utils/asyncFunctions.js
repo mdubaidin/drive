@@ -16,45 +16,48 @@ async function uploadFile(args) {
     const _id = new Types.ObjectId().toString();
     const AWSKey = joinPaths(ROOT, parentKey, _id);
 
-    const fileMetadata = new File({
-        _id,
-        mimetype,
-        size: parseBytesToKB(size),
-        userId,
-        key: sanitizeParent(parentKey),
-        name: originalname,
-        available,
-        sharedWith,
-        ...(access && { access }),
-    });
+    try {
+        const fileMetadata = new File({
+            _id,
+            mimetype,
+            size: parseBytesToKB(size),
+            userId,
+            key: sanitizeParent(parentKey),
+            name: originalname,
+            available,
+            sharedWith,
+            ...(access && { access }),
+        });
 
-    await fileMetadata.save({ session });
+        await fileMetadata.save({ session });
 
-    const filePath = path.join(uploadsFolder, filename);
+        const filePath = path.join(uploadsFolder, filename);
 
-    if (!fs.existsSync(filePath)) Error.throw('File not found', 404);
+        if (!fs.existsSync(filePath)) Error.throw('File not found', 404);
 
-    const fileContent = fs.createReadStream(filePath);
+        const fileContent = fs.createReadStream(filePath);
 
-    const params = {
-        Bucket: BUCKET,
-        Key: AWSKey,
-        Body: fileContent,
-        ContentType: mimetype,
-        ContentEncoding: encoding,
-        Size: size,
-    };
+        const params = {
+            Bucket: BUCKET,
+            Key: AWSKey,
+            Body: fileContent,
+            ContentType: mimetype,
+            ContentEncoding: encoding,
+            Size: size,
+        };
 
-    const command = new PutObjectCommand(params);
+        const command = new PutObjectCommand(params);
 
-    await s3Client.send(command);
+        await s3Client.send(command);
 
-    console.log('File uploaded to S3:', filename);
+        console.log('File uploaded to S3:', filename);
 
-    // Delete the file after successful upload
-    fs.unlinkSync(filePath);
-    console.log('File deleted:', filePath);
-    return fileMetadata;
+        // Delete the file after successful upload
+        fs.unlinkSync(filePath);
+        return fileMetadata;
+    } catch (error) {
+        fs.unlinkSync(filePath);
+    }
 }
 
 async function addSharedWith(parentId, userId) {

@@ -70,7 +70,7 @@ const Main = props => {
     } = useModal();
     const xmLayout = useMedia('(max-width: 1024px)');
     const { showError, showResponse } = useMessage();
-    const user = useAuthUser();
+    const user = useAuthUser() || {};
     const { anchorEl: anchorElSort, openMenu: openSortMenu, closeMenu: closeSortMenu } = useMenu();
     const { modalState: shareState, closeModal: closeShare, openModal: openShare } = useModal();
 

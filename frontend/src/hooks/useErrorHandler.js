@@ -78,11 +78,13 @@ const useErrorHandler = () => {
                     return showError(message || `Ensure you've entered valid information.`);
 
                 if (status === 401) {
-                    signOut();
-                    return showError(
+                    showError(
                         message ||
                             `Unauthorized: Access Denied. Verify your credentials and try again. `
                     );
+                    signOut();
+
+                    return window.location.replace('/');
                 }
 
                 if (status === 403) {

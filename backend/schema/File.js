@@ -51,7 +51,7 @@ const fileSchema = new Schema(
                 },
             },
         },
-        sharedWith: [sharedWith],
+        sharedWith: { type: [sharedWith], default: [] },
     },
     {
         timestamps: true,

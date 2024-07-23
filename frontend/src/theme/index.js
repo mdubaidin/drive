@@ -93,6 +93,7 @@ const ThemeProvider = props => {
                 },
             },
             text: {
+                primary: '#e1e0e6',
                 secondary: '#c4c7c5',
             },
             contrast: 'white',
@@ -207,10 +208,16 @@ const ThemeProvider = props => {
                                         backgroundColor: theme.palette.primary.main,
                                         height: 32,
                                         '.MuiListItemIcon-root': {
-                                            color: theme.palette.contrast,
+                                            color:
+                                                theme.palette.mode === 'dark'
+                                                    ? '#c5e5fe'
+                                                    : theme.palette.primary.contrastText,
                                         },
                                         '.MuiListItemText-root': {
-                                            color: theme.palette.primary.contrastText,
+                                            color:
+                                                theme.palette.mode === 'dark'
+                                                    ? '#c5e5fe'
+                                                    : theme.palette.primary.contrastText,
                                             m: 0,
                                         },
                                     },

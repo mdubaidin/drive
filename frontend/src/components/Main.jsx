@@ -333,6 +333,7 @@ const Main = props => {
                                         whiteSpace: 'nowrap',
                                         overflow: 'hidden',
                                         textOverflow: 'ellipsis',
+                                        mb: 1,
                                     }}>
                                     {title}
                                 </Typography>

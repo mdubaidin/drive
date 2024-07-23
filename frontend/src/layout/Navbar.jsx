@@ -87,7 +87,7 @@ export default function Navbar(props) {
     const { showError } = useMessage();
     const location = useLocation();
 
-    const user = useAuthUser();
+    const user = useAuthUser() || {};
 
     // useMenu
     const {
@@ -383,6 +383,9 @@ export default function Navbar(props) {
                 ref={fileRef}
                 style={{ display: 'none' }}
                 onChange={fileHandler}
+                onClick={() => {
+                    fileRef.current.value = '';
+                }}
                 multiple
             />
             <input
@@ -391,6 +394,9 @@ export default function Navbar(props) {
                 webkitdirectory=''
                 mozdirectory=''
                 ref={folderRef}
+                onClick={() => {
+                    folderRef.current.value = '';
+                }}
                 style={{ display: 'none' }}
                 onChange={folderHandler}
             />

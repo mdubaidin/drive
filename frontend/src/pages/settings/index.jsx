@@ -16,18 +16,13 @@ import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 import AccountMenu from '../../layout/AccountMenu';
 import { useMenu } from '../../hooks/useMenu';
 import NavigationPanel from './NavigationPanel';
-import General from './General';
 import MenuIcon from '@mui/icons-material/Menu';
-import Notifications from './Notifications';
 
 const drawerWidth = 256;
 
-const settings = [General, Notifications];
-
-const Settings = () => {
+const Settings = ({ children }) => {
     const navigate = useNavigate();
-    const user = useAuthUser();
-    const [selectedPanel, setSelectedPanel] = useState(0);
+    const user = useAuthUser() || {};
     const [mobileOpen, setMobileOpen] = useState(false);
     const location = useLocation();
     const matches = useMediaQuery('(min-width:1024px)', { noSsr: true });
@@ -149,7 +144,7 @@ const Settings = () => {
                             backgroundImage: 'none',
                         },
                     }}>
-                    <NavigationPanel selected={selectedPanel} setSelected={setSelectedPanel} />
+                    <NavigationPanel />
                 </Drawer>
                 <Drawer
                     variant='permanent'
@@ -162,7 +157,7 @@ const Settings = () => {
                             border: 'none',
                         },
                     }}>
-                    <NavigationPanel selected={selectedPanel} setSelected={setSelectedPanel} />
+                    <NavigationPanel />
                 </Drawer>
             </Box>
             <Box
@@ -180,7 +175,7 @@ const Settings = () => {
                     transition: '0s',
                     height: 'calc(100dvh - 80px)',
                 }}>
-                {React.createElement(settings[selectedPanel])}
+                {children}
             </Box>
         </Box>
     );

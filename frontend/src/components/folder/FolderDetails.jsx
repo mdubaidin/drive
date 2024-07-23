@@ -11,7 +11,7 @@ import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
 const FolderDetails = props => {
     const { details, detailsPanelClose } = props;
     const [location, setLocation] = useState(null);
-    const user = useAuthUser();
+    const user = useAuthUser() || {};
     const { showError } = useMessage();
 
     const key = details.key;

@@ -51,7 +51,7 @@ const FileCard = props => {
     const [preview, setPreview] = useState(null);
     const [fileIcon, setFileIcon] = useState(null);
     const [loading, setLoading] = useState(false);
-    const user = useAuthUser();
+    const user = useAuthUser() || {};
     const xsLayout = useMedia('(max-width: 576px)');
     const { modalState: renameState, closeModal: closeRename, openModal: openRename } = useModal();
     const { modalState: shareState, closeModal: closeShare, openModal: openShare } = useModal();
@@ -75,7 +75,7 @@ const FileCard = props => {
         () =>
             userId === user?._id ||
             sharedWith?.find(sharedUser => sharedUser.userId === user?._id)?.access === 'editor',
-        [user, userId, sharedWith]
+        [user._id, userId, sharedWith]
     );
 
     const getAWSKey = (key, id) => (key ? encodeURIComponent(key + '/' + id) : id);

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './utils/axios';
 
 //pages
@@ -24,13 +24,17 @@ import ResetPassword from './auth/ResetPassword';
 import NotFound from './components/NotFound';
 import Settings from './pages/settings';
 import AuthRouter from './providers/AuthRouter';
-import RequireAuth from '@auth-kit/react-router/RequireAuth';
+import AuthOutlet from '@auth-kit/react-router/AuthOutlet';
+import General from './pages/settings/General';
+import Account from './pages/settings/Account';
+import Notifications from './pages/settings/Notifications';
 
 const App = () => {
     return (
         <Provider>
             <Routes>
-                <Route path='auth'>
+                <Route path='/auth'>
+                    <Route index element={<Navigate to='/auth/sign-in' />} />
                     <Route path='sign-up' element={<CreateAccount />} />
                     <Route path='identify' element={<Identify />} />
                     <Route path='sign-in' element={<Login />} />
@@ -50,13 +54,16 @@ const App = () => {
                     <Route path='/shared-by-me/folder/:id' element={<SharedByFolder />} />
                 </Route>
                 <Route
-                    path='settings'
+                    path='/settings'
                     element={
-                        <RequireAuth fallbackPath='/auth/sign-in'>
-                            <Settings />
-                        </RequireAuth>
-                    }
-                />
+                        <Settings>
+                            <AuthOutlet fallbackPath='/auth/sign-in' />
+                        </Settings>
+                    }>
+                    <Route index element={<General />} />
+                    <Route path='notifications' element={<Notifications />} />
+                    <Route path='account' element={<Account />} />
+                </Route>
 
                 <Route path='/file/d/:id' element={<FileViewer />} />
                 <Route path='/folder/d/:id' element={<FolderViewer />} />

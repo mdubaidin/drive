@@ -12,7 +12,6 @@ import IntroBox from './components/IntroBox';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { useNavigate, Link } from 'react-router-dom';
 import Image from '../components/Image';
-import { setCookie } from '../utils/cookies';
 import Title from './components/Title';
 import Layout from './Layout';
 
@@ -42,8 +41,6 @@ const Login = () => {
                 userState: data.user,
             });
 
-            setCookie('jwt-auth.access-token', data.accessToken);
-            setCookie('jwt-auth.refresh-token', data.refreshToken);
             navigate('/');
         } catch (err) {
             errorHandler(err);

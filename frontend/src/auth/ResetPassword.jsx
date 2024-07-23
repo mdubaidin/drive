@@ -1,10 +1,10 @@
 import { Box, Button, CircularProgress, Grid, Stack, Typography } from '@mui/material';
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import IntroBox from './components/IntroBox';
 import Image from '../components/Image';
 import Title from './components/Title';
 import { isEmpty } from '../utils/function';
-import { useNavigate, useSearchParams, Link, useOutletContext } from 'react-router-dom';
+import { useNavigate, useSearchParams, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { authApi } from '../utils/axios';
 import useErrorHandler from '../hooks/useErrorHandler';
@@ -19,7 +19,7 @@ const ResetPassword = () => {
     const navigate = useNavigate();
     const errorHandler = useErrorHandler();
     const { showSuccess } = useMessage();
-    const { isValid, setIsValid } = useOutletContext();
+    const [isValid, setIsValid] = useState(false);
     const email = params.get('email');
     const code = params.get('code');
 
@@ -57,8 +57,6 @@ const ResetPassword = () => {
     );
 
     useEffect(() => {
-        setIsValid(false);
-
         verify(email, code);
     }, [verify, email, code, setIsValid]);
 
