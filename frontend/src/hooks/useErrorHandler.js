@@ -1,35 +1,45 @@
 import { useCallback } from 'react';
 import { useMessage } from '../providers/Provider';
-import { isEmpty, isObject } from '../utils/function';
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
+import { isEmpty, isObject, isString } from '../utils/utils';
 
 const useErrorHandler = () => {
     const { showError } = useMessage();
-    const signOut = useSignOut();
 
-    const getMessage = useCallback(function (error) {
-        const field = Object.keys(error)[0];
-        const fieldValue = error[field];
+    const getValue = useCallback(object => {
+        const field = Object.keys(object)[0];
+        return object[field];
+    }, []);
 
-        if (!field) return 'Unable to encounter the error';
+    const getMessage = useCallback(
+        function (error) {
+            if (isEmpty(error)) return 'Unable to encounter the error message';
 
-        if (typeof fieldValue === 'string') return fieldValue;
+            const fieldValue = getValue(error);
 
-        if (Array.isArray(fieldValue)) {
-            const innerField = fieldValue.shift();
+            if (typeof fieldValue === 'string') return fieldValue;
 
-            if (isObject(innerField) && !isEmpty(innerField)) {
-                const firstField = Object.keys(innerField)[0];
-                const firstFieldValue = innerField[firstField];
+            if (Array.isArray(fieldValue)) {
+                const innerField = fieldValue.shift();
 
-                if (typeof firstFieldValue === 'string') return firstFieldValue;
+                if (isObject(innerField) && !isEmpty(innerField)) {
+                    const firstField = getValue(innerField);
+                    if (isString(firstField)) return firstField;
+                }
+
+                if (isString(innerField)) return innerField;
+                return getMessage(innerField);
             }
 
-            if (typeof innerField === 'string') return innerField;
+            if (isObject(fieldValue)) {
+                const firstField = getValue(fieldValue);
+                if (isString(firstField)) return firstField;
 
-            if (typeof innerField !== 'string') return getMessage(innerField);
-        }
-    }, []);
+                if (isString(firstField)) return firstField;
+                return getMessage(firstField);
+            }
+        },
+        [getValue]
+    );
 
     const errorHandler = useCallback(
         error => {
@@ -46,6 +56,7 @@ const useErrorHandler = () => {
                 console.log(data);
                 console.log(status);
                 console.log(headers);
+                console.log({ message });
 
                 // SERVER ERROR
                 if (status === 500)
@@ -77,15 +88,10 @@ const useErrorHandler = () => {
                 if (status === 400)
                     return showError(message || `Ensure you've entered valid information.`);
 
-                if (status === 401) {
-                    showError(
-                        message ||
-                            `Unauthorized: Access Denied. Verify your credentials and try again. `
+                if (status === 401)
+                    return showError(
+                        `Unauthorized: Access Denied. Verify your credentials and try again. `
                     );
-                    signOut();
-
-                    return window.location.replace('/');
-                }
 
                 if (status === 403) {
                     return showError(
@@ -93,7 +99,8 @@ const useErrorHandler = () => {
                     );
                 }
 
-                if (status === 404) return showError(`We can't find what you are looking for.`);
+                if (status === 404)
+                    return showError(message || `We can't find what you are looking for.`);
 
                 if (status === 409)
                     return showError(
@@ -117,7 +124,7 @@ const useErrorHandler = () => {
                 return showError(error.message);
             }
         },
-        [showError, getMessage] // eslint-disable-line react-hooks/exhaustive-deps
+        [showError, getMessage]
     );
 
     return errorHandler;

@@ -57,11 +57,11 @@ const General = () => {
                     </Typography>
                     <StorageProgress
                         variant='determinate'
-                        value={(stats.used / stats.storage) * 100}
+                        value={(stats.used ?? 0 / stats.storage) * 100}
                         sx={{ borderRadius: '5px', width: 256 }}
                     />
                     <Typography variant='caption' component='div' my={1} color='text.primary'>
-                        {parseKB(stats.used)} of {parseKB(stats.storage)} used
+                        {parseKB(stats.used) ?? 0} of {parseKB(stats.storage)} used
                     </Typography>
                     <Button
                         variant='text'

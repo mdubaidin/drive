@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
 import File from '../../schema/File.js';
 import { getDateByFilter } from '../../utils/functions.js';
-import filters from '../../services/filters.js';
+import filters from '../../data/filters.js';
 
 export default async function (req, res, next) {
     try {

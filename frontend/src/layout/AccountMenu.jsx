@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Grid, Menu, Stack, Typography } from '@mui/materia
 import React from 'react';
 import useSignOut from 'react-auth-kit/hooks/useSignOut';
 import { Link } from 'react-router-dom';
-import Image from '../components/Image';
+import Logo from '../components/Logo';
 
 const AccountMenu = ({ anchorElProfile, closeProfileMenu, user }) => {
     const signOut = useSignOut();
@@ -24,16 +24,8 @@ const AccountMenu = ({ anchorElProfile, closeProfileMenu, user }) => {
                 },
             }}>
             <Stack direction={'row'} justifyContent='space-between' alignItems='center' mb={2}>
-                <Stack direction='row' alignItems='flex-end' spacing={1}>
-                    <Image name='logo.png' sx={{ height: 25 }} />
-                    <Typography
-                        variant='subtitle1'
-                        color='text.secondary'
-                        lineHeight={1.3}
-                        fontWeight={500}>
-                        Cloud Drive
-                    </Typography>
-                </Stack>
+                <Logo sx={{ height: 18 }} />
+
                 <Button
                     variant='text'
                     sx={{ color: 'text.secondary' }}

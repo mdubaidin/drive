@@ -52,8 +52,10 @@ const Layout = ({ children }) => {
                 <Card
                     sx={{
                         p: 2,
-                        width: { xs: '100%', sm: '448px', md: '980px' },
+                        width: { xs: '100%', sm: '448px', md: '553px' },
                         transition: 'all 0.2s',
+                        borderRadius: '4px',
+                        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
                     }}
                     elevation={0}>
                     {children}

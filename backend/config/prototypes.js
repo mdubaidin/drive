@@ -3,26 +3,26 @@ import express from 'express';
 express.response.success = function (res) {
     if (typeof res === 'string')
         return this.json({
-            success: true,
             message: res,
+            success: true,
         });
 
     return this.json({
-        success: true,
         ...res,
+        success: true,
     });
 };
 
 express.response.error = function (res) {
     if (typeof res === 'string' || Array.isArray(res))
         return this.json({
-            success: false,
             errors: Array.isArray(res) ? res : [res],
+            success: false,
         });
 
     return this.json({
-        success: false,
         ...res,
+        success: false,
     });
 };
 

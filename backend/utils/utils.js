@@ -52,6 +52,7 @@ function generateTemplate(template, data) {
     if (!template) throw new CustomError('Template must be provided');
 
     data.server = process.env.SERVER_URL;
+    data.platform = process.env.PLATFORM;
 
     const keys = Object.keys(data);
     keys.forEach(key => {

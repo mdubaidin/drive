@@ -1,5 +1,5 @@
 import File from '../../schema/File.js';
-import filters from '../../services/filters.js';
+import filters from '../../data/filters.js';
 import { getDateByFilter } from '../../utils/functions.js';
 
 export default async function (req, res, next) {

@@ -28,7 +28,7 @@ export default async function (req, res, next) {
             },
         ]);
 
-        res.success({ stats: { used: used || 0, storage } });
+        res.success({ stats: { used: used.used || 0, storage } });
     } catch (e) {
         next(e);
     }

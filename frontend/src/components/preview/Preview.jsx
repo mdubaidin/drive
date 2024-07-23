@@ -48,6 +48,7 @@ import DocViewer, { DocViewerRenderers } from '@cyntler/react-doc-viewer';
 import './style.css';
 import useMedia from '../../hooks/useMedia';
 import Icon from '../Icon';
+import Image from '../Image';
 
 const theme = createTheme({
     palette: {
@@ -101,7 +102,7 @@ const Preview = props => {
         setActiveContent(allFiles[activeIndex - 1]);
     }, [activeIndex, allFiles]);
 
-    console.log({ activeContent, activeIndex, preview });
+    // console.log({ activeContent, activeIndex, preview });
 
     const forwardSlide = useCallback(() => {
         if (activeIndex === allFiles.length - 1) return;
@@ -271,6 +272,7 @@ const Preview = props => {
                     container
                     alignItems='center'
                     sx={{
+                        mt: 4,
                         transition: 'all 0.3s ease-in',
                         flexWrap: 'wrap',
                     }}>
@@ -281,12 +283,13 @@ const Preview = props => {
                     </Grid>
 
                     <Grid item xs>
-                        <Box
-                            display='grid'
+                        <Stack
+                            direction='row'
+                            justifyContent='center'
                             alignItems='center'
-                            onClick={closeModal}
-                            minHeight='100vh'
-                            sx={{ placeItems: 'center' }}>
+                            height='calc(100dvh - 64px)'
+                            mx={1}
+                            onClick={closeModal}>
                             {previewAllowed.includes(type.split('/')[1]) ? (
                                 loaderState ? (
                                     circular
@@ -299,7 +302,11 @@ const Preview = props => {
                                         <source src={preview && preview[0]?.uri} />
                                     </audio>
                                 ) : fileType === 'image' ? (
-                                    <img src={preview && preview[0]?.uri} alt='no-preview' />
+                                    <Image
+                                        src={preview && preview[0]?.uri}
+                                        alt='no-preview'
+                                        sx={{ maxHeight: '85vh' }}
+                                    />
                                 ) : (
                                     <DocViewer
                                         documents={preview}
@@ -310,7 +317,7 @@ const Preview = props => {
                             ) : (
                                 <NoPreview />
                             )}
-                        </Box>
+                        </Stack>
                     </Grid>
                     <Grid item xs={1} textAlign='center' display={{ xs: 'none', sm: 'block' }}>
                         <IconButton onClick={forwardSlide}>

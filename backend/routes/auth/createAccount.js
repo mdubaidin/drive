@@ -54,7 +54,7 @@ const initiateEmail = async function (req, res, next) {
         const template = generateTemplate(html, { email, code: otp });
 
         transporter.sendMail({
-            from: 'Drive <onboarding@resend.dev>',
+            from: process.env.PLATFORM,
             to: email, // list of receivers
             subject: 'Drive: Email verification',
             html: template, // html body

@@ -3,23 +3,23 @@ import React, { useMemo, useContext, useState, createContext, useLayoutEffect } 
 import { CssBaseline, ThemeProvider as MuiThemeProvider } from '@mui/material';
 import { getCookie, setCookie } from '../utils/cookies';
 
-const ThemeContext = createContext({ setTheme: () => {}, theme: 'system' });
+const ThemeContext = createContext({ setTheme: () => {}, theme: 'light' });
 
 const ThemeProvider = props => {
     const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
-    const preferTheme = getCookie('theme-options');
+    const preferTheme = getCookie('theme-options:drive.mdubaid.in');
 
-    const [mode, setMode] = useState('dark');
-    const [theme, setTheme] = useState(preferTheme || 'system');
+    const [mode, setMode] = useState('light');
+    const [theme, setTheme] = useState(preferTheme || 'light');
 
     useLayoutEffect(() => {
         if (theme === 'system') {
             const preferTheme = prefersDarkMode ? 'dark' : 'light';
-            setCookie('theme-options', theme);
+            setCookie('theme-options:drive.mdubaid.in', theme);
             return setMode(preferTheme);
         }
 
-        setCookie('theme-options', theme);
+        setCookie('theme-options:drive.mdubaid.in', theme);
         setMode(theme);
     }, [prefersDarkMode, theme]);
 
@@ -294,7 +294,7 @@ const ThemeProvider = props => {
     );
 
     return (
-        <ThemeContext.Provider value={{ setTheme, theme }}>
+        <ThemeContext.Provider value={{ setTheme, theme, mode }}>
             <MuiThemeProvider theme={baseTheme}>
                 <CssBaseline />
                 {props.children}
@@ -303,11 +303,7 @@ const ThemeProvider = props => {
     );
 };
 
-const useTheme = () => {
-    const { setTheme, theme } = useContext(ThemeContext);
-
-    return { setTheme, theme };
-};
+const useTheme = () => useContext(ThemeContext);
 
 export { useTheme, ThemeContext };
 

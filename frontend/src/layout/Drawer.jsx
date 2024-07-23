@@ -21,6 +21,7 @@ import Image from '../components/Image';
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import Logo from '../components/Logo';
 
 const StorageProgress = styled(LinearProgress)(({ theme }) => ({
     [`&.${linearProgressClasses.colorPrimary}`]: {
@@ -57,14 +58,13 @@ const Drawer = props => {
     return (
         <Box minHeight='100dvh' color='text.secondary' display='flex' flexDirection='column'>
             <Box
-                display={{ xs: 'flex', xm: 'none' }}
                 alignItems='center'
                 justifyContent='center'
                 position='relative'
                 component={Link}
                 to='/'
-                sx={{ textDecoration: 'none', color: 'text.primary', py: 1 }}>
-                <Image name='logo.png' sx={{ height: '30px' }} />
+                sx={{ textDecoration: 'none', color: 'text.primary', mt: 2.7, mb: 4, pl: 2 }}>
+                <Logo sx={{ height: '26px' }} />
             </Box>
 
             <Box
@@ -73,7 +73,6 @@ const Drawer = props => {
                     overflowX: 'hidden',
                     height: 'calc(100dvh - 90px)',
                     flexGrow: 1,
-                    mt: { xm: 8 },
                 }}>
                 <Box px={2} py={1}>
                     <Button
@@ -167,7 +166,7 @@ const Drawer = props => {
                             <Box px={2} my={1} width='90%'>
                                 <StorageProgress
                                     variant='determinate'
-                                    value={(stats.used.used / stats.storage) * 100}
+                                    value={(stats.used ?? 0 / stats.storage) * 100}
                                     sx={{ borderRadius: '5px' }}
                                 />
                                 <Typography
@@ -175,7 +174,7 @@ const Drawer = props => {
                                     component='div'
                                     my={1}
                                     color='text.secondary'>
-                                    {parseKB(stats.used.used)} of {parseKB(stats.storage)} used
+                                    {parseKB(stats.used) ?? 0} of {parseKB(stats.storage)} used
                                 </Typography>
                                 <Button
                                     variant='text'

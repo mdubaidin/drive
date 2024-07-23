@@ -28,7 +28,7 @@ const identify = async function (req, res, next) {
         });
 
         transporter.sendMail({
-            from: 'Messengerz <onboarding@resend.dev>',
+            from: process.env.PLATFORM,
             to: email, // list of receivers
             subject: 'Reset Your Password for Messengerz ',
             html: template, // html body

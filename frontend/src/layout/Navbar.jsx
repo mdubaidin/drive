@@ -234,7 +234,8 @@ export default function Navbar(props) {
                 component={Box}
                 position='sticky'
                 sx={{
-                    width: '100%',
+                    width: { xs: '100%', xm: `calc(100% - ${drawerWidth}px)` },
+                    ml: { xm: `${drawerWidth}px` },
                     transition: '225ms, background-color 0s',
                     backgroundColor: 'background.default',
                     borderBottom: '1px solid custom.border',
@@ -253,29 +254,16 @@ export default function Navbar(props) {
                         },
                     }}>
                     <Grid container alignItems='center' columnSpacing={1}>
-                        <Grid
-                            item
-                            flexBasis={{ xm: drawerWidth }}
-                            display='flex'
-                            alignItems='center'>
+                        <Grid item sx={{ display: { xm: 'none' } }}>
                             <IconButton
                                 onClick={() => handleDrawerToggle()}
                                 edge='start'
                                 sx={{
                                     ml: 0.2,
                                     mr: 1,
-                                    display: { xm: 'none' },
                                 }}>
                                 <MenuIcon />
                             </IconButton>
-
-                            <Box
-                                display={{ xs: 'none', xm: 'flex' }}
-                                component={Link}
-                                to='/'
-                                sx={{ textDecoration: 'none', color: 'text.primary', px: 2 }}>
-                                <Image name='logo.png' sx={{ height: '30px' }} />
-                            </Box>
                         </Grid>
 
                         <Grid item xs md={5} alignItems='start'>
