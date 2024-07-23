@@ -17,7 +17,6 @@ import useErrorHandler from '../hooks/useErrorHandler';
 import { useMessage } from '../providers/Provider';
 import axios from 'axios';
 import { parseKB } from '../utils/function';
-import Image from '../components/Image';
 import SettingsIcon from '@mui/icons-material/SettingsOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
