@@ -3,6 +3,7 @@ import User from '../schema/User.js';
 import { isAccessTokenExpire } from '../utils/jwt/token.js';
 import { generateAccessToken, generateRefreshToken } from '../utils/jwt/jwt.js';
 import { setCookie } from '../utils/cookies.js';
+import CustomError from '../classes/CustomError.js';
 
 export default async function (req, res, next) {
     try {

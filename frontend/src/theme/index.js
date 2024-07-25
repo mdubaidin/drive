@@ -26,10 +26,10 @@ const ThemeProvider = props => {
     const light = useMemo(
         () => ({
             primary: {
-                main: '#c2e7ff',
+                main: '#3347ce',
             },
             secondary: {
-                main: '#3347ce',
+                main: '#c2e7ff',
             },
             background: {
                 main: '#FFFFFF',
@@ -76,10 +76,10 @@ const ThemeProvider = props => {
     const dark = useMemo(
         () => ({
             primary: {
-                main: '#004a77',
+                main: '#9cb0e6',
             },
             secondary: {
-                main: '#9cb0e6',
+                main: '#004a77',
             },
             background: {
                 main: '#000000',
@@ -203,21 +203,21 @@ const ThemeProvider = props => {
                                     },
                                     '&.Mui-selected': {
                                         '&:hover': {
-                                            backgroundColor: theme.palette.primary.main,
+                                            backgroundColor: theme.palette.secondary.main,
                                         },
-                                        backgroundColor: theme.palette.primary.main,
+                                        backgroundColor: theme.palette.secondary.main,
                                         height: 32,
                                         '.MuiListItemIcon-root': {
                                             color:
                                                 theme.palette.mode === 'dark'
                                                     ? '#c5e5fe'
-                                                    : theme.palette.primary.contrastText,
+                                                    : theme.palette.secondary.contrastText,
                                         },
                                         '.MuiListItemText-root': {
                                             color:
                                                 theme.palette.mode === 'dark'
                                                     ? '#c5e5fe'
-                                                    : theme.palette.primary.contrastText,
+                                                    : theme.palette.secondary.contrastText,
                                             m: 0,
                                         },
                                     },

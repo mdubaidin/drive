@@ -450,7 +450,11 @@ const Preview = props => {
                         alignItems: 'center',
                     }}>
                     <>
-                        <Share closeModal={closeShare} content={content} refresh={refresh} />
+                        <Share
+                            closeModal={closeShare}
+                            selected={{ files: [id] }}
+                            refresh={refresh}
+                        />
                     </>
                 </Modal>
             </Box>
@@ -648,7 +652,7 @@ const DetailsPanel = props => {
                 transition: '0.2s ease-in',
                 transitionProperty: 'width, transform',
                 height: 'calc(100dvh - 85px)',
-                mt: 'auto',
+                mt: 4,
                 backgroundColor: 'background.default',
                 borderRadius: '12px',
                 overflowY: 'auto',

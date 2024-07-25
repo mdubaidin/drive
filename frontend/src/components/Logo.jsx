@@ -1,15 +1,17 @@
 import React, { useMemo } from 'react';
 import Box from '@mui/material/Box';
-import { useTheme } from '../theme';
+import useTheme from '@mui/material/styles/useTheme';
 
 const Logo = props => {
     const { variant = 'text', sx, ...rest } = props;
-    const { mode } = useTheme();
+    const theme = useTheme();
 
     const image = useMemo(() => {
         if (variant === 'icon') return '/images/logo.png';
-        return mode === 'dark' ? '/images/logo-text-light.png' : '/images/logo-text.png';
-    }, [variant, mode]);
+        return theme.palette.mode === 'dark'
+            ? '/images/logo-text-light.png'
+            : '/images/logo-text.png';
+    }, [variant, theme.palette.mode]);
 
     return (
         <Box

@@ -41,6 +41,7 @@ const GeneralAccess = {
 
 const Share = props => {
     const { closeModal, refresh, selected, selectedLength, clearAll } = props;
+    console.log('selected ', selected);
 
     const [contents, setContents] = useState(null);
     const { _id: id, file, sharedWith, email, access, name } = contents?.at(0) || {};
@@ -198,7 +199,7 @@ const Share = props => {
 
     const copyToClipboard = async () => {
         try {
-            const link = file ? `${env('DOMAIN')}/file/d/${id}` : `${env('DOMAIN')}/folder/d/${id}`;
+            const link = file ? `${env('DOMAIN')}/d/file/${id}` : `${env('DOMAIN')}/d/folder/${id}`;
             await navigator.clipboard.writeText(link);
             showResponse('Link copied');
         } catch (e) {

@@ -15,7 +15,7 @@ export default function (req, res, next) {
 
         const user = Jwt.verify(token, PUBLIC_KEY);
 
-        console.log('user: ', user);
+        // console.log('user: ', user);
 
         req.user = user;
         req.user.id = new Types.ObjectId(user.id);

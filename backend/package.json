@@ -5,8 +5,8 @@
     "main": "index.js",
     "type": "module",
     "scripts": {
-        "start": "nodemon index.js 8000",
-        "deploy": "pm2 start index.js -- 8001"
+        "start": "nodemon index.js",
+        "deploy": "pm2 start index.js --name drive"
     },
     "author": "",
     "license": "ISC",

@@ -177,7 +177,6 @@ const Drawer = props => {
                                 </Typography>
                                 <Button
                                     variant='text'
-                                    color='secondary'
                                     fullWidth
                                     sx={{
                                         borderRadius: '100px',

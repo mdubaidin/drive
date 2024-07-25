@@ -1,49 +1,32 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Button, Container, Stack, Typography } from '@mui/material';
 import React from 'react';
 import Image from './Image';
 
 const Error = props => {
-    const { error, errorCode, title } = props;
+    const { error } = props;
     return (
         <Container maxWidth='lg'>
-            <Box
-                display='flex'
+            <Stack
                 justifyContent='center'
                 alignItems='center'
-                minHeight='calc(100dvh - 80px)'
-                color='white'
+                minHeight='calc(100vh - 80px)'
+                textAlign='center'
                 my={5}>
-                <Grid container alignItems='center' spacing={2}>
-                    <Grid item xs={12} md={8}>
-                        <Image cdn='files/logo/2023/files-text.png' sx={{ height: '70px' }} />
-
-                        <Box ml={2}>
-                            <Typography variant='h4' color='text.secondary' fontWeight={400} my={3}>
-                                <Typography
-                                    variant='h5'
-                                    fontWeight={500}
-                                    color='text.primary'
-                                    component='span'>
-                                    {errorCode}
-                                </Typography>
-                                {title || `That's an error.`}
-                            </Typography>
-                            <Typography variant='h6' mb={1}>
-                                {error}
-                            </Typography>
-                            <Typography variant='subtitle1' color='text.secondary'>
-                                That's all we know
-                            </Typography>
-                        </Box>
-                    </Grid>
-                    <Grid item xs={12} md={4} align='center'>
-                        <Image
-                            name='robot.png'
-                            sx={{ maxWidth: '384px', width: '100%', mt: { xs: 4, md: 0 } }}
-                        />
-                    </Grid>
-                </Grid>
-            </Box>
+                <Image name='logo.png' sx={{ height: '65px', mb: 2 }} alt='logo' />{' '}
+                <Typography variant='h4' mb={1}>
+                    This Page isn&apos;t available
+                </Typography>
+                <Typography variant='subtitle1'>
+                    The link that you followed may be broken or {error}
+                    That&apos;s all we know
+                </Typography>
+                <Button
+                    variant='text'
+                    href='/'
+                    sx={{ mt: 1.5, mb: 2, py: 1, borderRadius: '10px' }}>
+                    Return to Cloud Drive
+                </Button>
+            </Stack>
         </Container>
     );
 };

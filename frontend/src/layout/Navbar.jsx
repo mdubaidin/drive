@@ -288,7 +288,7 @@ export default function Navbar(props) {
                                 sx={{
                                     borderWidth: '2px',
                                     borderStyle: 'solid',
-                                    borderColor: 'secondary.main',
+                                    borderColor: 'primary.main',
                                     p: '3px',
                                 }}>
                                 <Avatar

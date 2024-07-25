@@ -30,7 +30,7 @@ const sharedFile = [
         to: '/shared-with-me',
     },
     {
-        name: 'My share',
+        name: 'Shared by me',
         icon: <PersonIcon fontSize='small' />,
         to: '/shared-by-me',
     },

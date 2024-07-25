@@ -64,7 +64,6 @@ const AccountMenu = ({ anchorElProfile, closeProfileMenu, user }) => {
                         </Typography>
                         <Button
                             variant='text'
-                            color='secondary'
                             sx={{ p: 0 }}
                             LinkComponent={Link}
                             to='/settings/account'

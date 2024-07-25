@@ -8,6 +8,7 @@ export default function PageLoading(props) {
         children
     ) : (
         <Box
+            bgcolor='background.default'
             display='flex'
             alignItems='center'
             justifyContent='center'

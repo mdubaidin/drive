@@ -65,7 +65,6 @@ const General = () => {
                     </Typography>
                     <Button
                         variant='text'
-                        color='secondary'
                         sx={{
                             width: 130,
                             borderRadius: '100px',
@@ -82,21 +81,11 @@ const General = () => {
                 Appearance
             </Typography>
             <RadioGroup value={theme} onChange={e => setTheme(e.target.value)}>
-                <FormControlLabel
-                    value='light'
-                    control={<Radio color='secondary' />}
-                    label='Light'
-                    sx={{ mb: 1 }}
-                />
-                <FormControlLabel
-                    value='dark'
-                    control={<Radio color='secondary' />}
-                    label='Dark'
-                    sx={{ mb: 1 }}
-                />
+                <FormControlLabel value='light' control={<Radio />} label='Light' sx={{ mb: 1 }} />
+                <FormControlLabel value='dark' control={<Radio />} label='Dark' sx={{ mb: 1 }} />
                 <FormControlLabel
                     value='system'
-                    control={<Radio color='secondary' />}
+                    control={<Radio />}
                     label='Device default'
                     sx={{ mb: 1 }}
                 />

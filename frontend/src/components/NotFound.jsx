@@ -21,7 +21,6 @@ const NotFound = () => {
                 </Typography>
                 <Button
                     variant='text'
-                    color='secondary'
                     href='/'
                     sx={{ mt: 1.5, mb: 2, py: 1, borderRadius: '10px' }}>
                     Return to Cloud Drive
