@@ -1,6 +1,6 @@
 import express from 'express';
 import { createAccount, initiateEmail } from '../routes/auth/createAccount.js';
-import createAccountWithProvider from '../routes/auth/providers/createAccount.js';
+import google from '../routes/auth/providers/google.js';
 import { login } from '../routes/auth/login.js';
 
 import refreshAccessToken from '../routes/auth/refreshAccessToken.js';
@@ -18,11 +18,11 @@ authRouter.get('/logout', validateJWT, authenticate, logout);
 // authRouter.get('/reset-code/:email', generateResetToken);
 
 // POST
-authRouter.post('/providers/create', createAccountWithProvider);
+authRouter.post('/providers/google', google);
 authRouter.post('/create-account/step1', initiateEmail);
 authRouter.post('/create-account/step2', createAccount);
 authRouter.post('/login', login);
-authRouter.post('/refresh-token', refreshAccessToken);
+authRouter.post('/refresh', refreshAccessToken);
 authRouter.post('/identify', identify);
 authRouter.post('/verify', verify);
 // authRouter.post('/users-info', getUsersInfo);

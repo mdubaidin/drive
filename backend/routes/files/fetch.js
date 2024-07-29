@@ -1,3 +1,4 @@
+import { Types } from 'mongoose';
 import File from '../../schema/File.js';
 
 async function fetchById(req, res, next) {
@@ -25,12 +26,27 @@ async function fetch(req, res, next) {
         if (!itemIds) Error.throw('itemIds must be provided');
         if (!itemIds.length) Error.throw('itemIds must contains ids of files not be empty');
 
-        const files = await File.find({
-            _id: { $in: itemIds },
-            userId,
-            available: true,
-            trash: false,
-        });
+        const fileIds = itemIds.map(itemId => new Types.ObjectId(itemId));
+
+        const files = await File.aggregate([
+            {
+                $match: { _id: { $in: fileIds }, userId, available: true, trash: false },
+            },
+            {
+                $lookup: {
+                    from: 'users',
+                    localField: 'sharedWith.userId',
+                    foreignField: '_id',
+                    as: 'sharedWith',
+                    pipeline: [
+                        {
+                            $project: { name: 1, email: 1, picture: 1 },
+                        },
+                    ],
+                },
+            },
+            { $project: { sharedWith: 1 } },
+        ]);
 
         if (!files) Error.throw('Your requested files is not available on the server', 404);
 

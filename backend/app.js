@@ -20,6 +20,7 @@ import sharedRouter from './routers/shared.js';
 import openRouter from './routers/open.js';
 import authRouter from './routers/auth.js';
 import statRouter from './routers/stats.js';
+import usersRuoter from './routers/users.js';
 
 const app = new express();
 
@@ -36,7 +37,7 @@ app.use(
         credentials: true,
     })
 );
-app.use(express.json());
+app.use(express.json({ limit: '5gb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan('dev'));
@@ -49,6 +50,7 @@ app.use('/auth', authorize, authRouter);
 app.use(validateJWT);
 app.use(authenticate);
 
+app.use('/users', usersRuoter);
 app.use('/file', filesRouter);
 app.use('/folder', folderRouter);
 app.use('/trash', trashRouter);

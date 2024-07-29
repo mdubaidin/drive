@@ -2,27 +2,32 @@ import User from '../../schema/User.js';
 import CustomError from '../../classes/CustomError.js';
 import { setCookie } from '../../utils/cookies.js';
 import jwt from 'jsonwebtoken';
-import { generateRefreshToken } from '../../utils/jwt/jwt.js';
+import { generateAccessToken } from '../../utils/jwt/jwt.js';
 
 const refreshAccessToken = async function (req, res, next) {
     try {
-        const token = req.body.refreshToken || req.cookies['jwt-auth.refresh-token'];
+        const refreshToken = req.body.refreshToken || req.cookies['jwt-auth.refresh'];
 
-        if (!token) throw new CustomError('Refresh token must be provided', 401);
+        if (!refreshToken) throw new CustomError('Refresh token must be provided', 401);
 
-        const decode = jwt.verify(token, process.env.JWT_SECRET);
+        const decodedToken = jwt.decode(refreshToken);
+        if (!decodedToken) throw new CustomError('Your session has been expired. Login again', 401);
+
+        const decode = jwt.verify(refreshToken, process.env.JWT_SECRET);
 
         const user = await User.findById(decode.id);
 
-        if (!user) throw new CustomError('Refresh token is invalid', 404);
+        if (!user) throw new CustomError('Refresh token is invalid', 401);
 
-        const refreshToken = await generateRefreshToken(user);
+        const token = await generateAccessToken(user);
 
-        setCookie(res, 'jwt-auth.refresh-token', refreshToken);
+        setCookie(res, 'jwt-auth', token);
+
+        const userInfo = user.removeSensitiveInfo();
 
         res.success({
-            user,
-            refreshToken,
+            user: userInfo,
+            token,
         });
     } catch (e) {
         console.log(e);

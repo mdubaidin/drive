@@ -47,12 +47,12 @@ async function validate(req, res, refreshToken) {
         const newRefreshToken = await generateRefreshToken(user);
 
         req.headers.refreshToken = newRefreshToken;
-        setCookie(res, 'jwt-auth.refresh-token', newRefreshToken);
+        setCookie(res, 'jwt-auth.refresh', newRefreshToken);
     } else {
         req.headers.refreshToken = refreshToken;
     }
 
     const newAccessToken = generateAccessToken(user);
     req.headers.accessToken = newAccessToken;
-    setCookie(res, 'jwt-auth.access-token', newAccessToken);
+    setCookie(res, 'jwt-auth', newAccessToken);
 }

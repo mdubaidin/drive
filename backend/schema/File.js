@@ -2,8 +2,7 @@ import { model, Schema, Types } from 'mongoose';
 const required = true;
 
 const sharedWith = new Schema({
-    userId: { type: Types.ObjectId, required, unique: true },
-    email: { type: String, required, unique: true },
+    _id: { type: Types.ObjectId, ref: 'User', required, unique: true },
     access: {
         type: String,
         default: 'viewer',

@@ -2,27 +2,28 @@ import User from '../../../schema/User.js';
 import CustomError from '../../../classes/CustomError.js';
 import { setTokenCookies } from '../../../utils/jwt/token.js';
 import { generateJwtPair } from '../../../utils/jwt/jwt.js';
+import { jwtDecode } from 'jwt-decode';
 
 const createAccount = async function (req, res, next) {
     try {
-        const { providerId, name, email, picture, provider } = req.body;
+        const credential = req.body.credential;
 
-        if (!providerId) throw new CustomError('Provider Id must be provided');
+        if (!credential) throw new CustomError('Credential Id must be provided');
 
-        if (!provider) throw new CustomError('Provider name must be provided');
+        const { sub, given_name, email, picture } = jwtDecode(credential);
 
         let user = null;
 
-        user = await User.findOne({ providerId });
+        user = await User.findOne({ providerId: sub });
 
         if (!user) {
             user = new User({
-                name,
+                name: given_name,
                 email,
                 picture,
-                provider,
-                providerId,
-                password: providerId,
+                provider: 'google',
+                providerId: sub,
+                password: sub,
             });
 
             await user.save();
@@ -33,7 +34,7 @@ const createAccount = async function (req, res, next) {
         const userInfo = user.removeSensitiveInfo();
 
         res.success({
-            ...userInfo,
+            userInfo,
             accessToken,
             refreshToken,
         });
