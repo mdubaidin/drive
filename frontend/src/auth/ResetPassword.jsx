@@ -1,9 +1,9 @@
-import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Link, Stack, Typography } from '@mui/material';
 import React, { useCallback, useEffect, useState } from 'react';
 import Image from '../components/Image';
 import Title from './components/Title';
 import { isEmpty } from '../utils/function';
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { authApi } from '../utils/axios';
 import useErrorHandler from '../hooks/useErrorHandler';
@@ -68,7 +68,7 @@ const ResetPassword = () => {
             <Box sx={{ p: { xs: 2.5, md: 5 } }}>
                 <Image name='logo.png' sx={{ height: 30 }} />
                 <Title>Create a new password</Title>
-                <Typography variant='body1' mb={isEmpty(errors) ? 7 : 1} color='text.secondary'>
+                <Typography variant='body2' mb={isEmpty(errors) ? 7 : 1} color='text.secondary'>
                     Guard your digital gate with a strong password: a mix of characters, length, and
                     uniqueness.
                 </Typography>
@@ -79,24 +79,19 @@ const ResetPassword = () => {
                     </Typography>
                 )}
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Typography variant='subtitle2' gutterBottom>
-                        New password
-                    </Typography>
                     <Input
                         variation='auth'
                         type='password'
-                        placeholder='New password'
+                        label='New password'
                         fieldName='password'
                         register={register}
                         registerOptions={{ required: 'Password is required' }}
                     />
-                    <Typography variant='subtitle2' gutterBottom>
-                        Confirm new password
-                    </Typography>
+
                     <Input
                         variation='auth'
                         type='password'
-                        placeholder='Confirm new password'
+                        label='Confirm password'
                         fieldName='confirmPassword'
                         register={register}
                         registerOptions={{
@@ -112,18 +107,17 @@ const ResetPassword = () => {
                     <Button
                         type='submit'
                         variant='contained'
-                        size='large'
                         fullWidth
                         disabled={isSubmitting}
                         endIcon={isSubmitting && <CircularProgress color='inherit' size='small' />}
-                        sx={{ p: 1.5, my: 1 }}>
+                        sx={{ p: 1, my: 1 }}>
                         Reset password
                     </Button>
                 </Form>
 
                 <Stack direction='row' justifyContent='center' mt={3} spacing={2}>
-                    <div>Already have an account?</div>
-                    <Link to='/auth/sign-in' color='primary.main' fontWeight={500}>
+                    <Typography variant='body2'>Already have an account?</Typography>
+                    <Link href='/auth/sign-in' color='primary.main' fontWeight={500}>
                         Sign In
                     </Link>
                 </Stack>

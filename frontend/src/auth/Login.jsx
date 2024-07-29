@@ -1,23 +1,26 @@
-import { Box, Button, CircularProgress, Divider, Stack, Typography } from '@mui/material';
-import React from 'react';
+import { Box, Button, CircularProgress, Divider, Stack, Typography, Link } from '@mui/material';
+import React, { useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import Form from '../components/Form';
-import FacebookButton from '../components/button/FacebookButton';
-import GoogleButton from '../components/button/GoogleButton';
 import Input from '../components/Input';
 import useErrorHandler from '../hooks/useErrorHandler';
 import { isEmpty } from '../utils/function';
 import { authApi } from '../utils/axios';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Image from '../components/Image';
 import Title from './components/Title';
 import Layout from './Layout';
+import { GoogleLogin } from '@react-oauth/google';
+import useLoader from '../hooks/useLoader';
+import { useMessage } from '../providers/Provider';
 
 const Login = () => {
     const navigate = useNavigate();
     const errorHandler = useErrorHandler();
     const signIn = useSignIn();
+    const { start, end, backdrop } = useLoader();
+    const { showError } = useMessage();
 
     const {
         register,
@@ -46,6 +49,34 @@ const Login = () => {
         }
     };
 
+    const createAccountByProvider = useCallback(
+        async response => {
+            try {
+                start();
+                const { data } = await authApi.post('/providers/google', {
+                    credential: response.credential,
+                });
+
+                const auth = { token: data.accessToken };
+                const refresh = data.refreshToken;
+                const userState = data.userInfo;
+
+                signIn({
+                    auth,
+                    refresh,
+                    userState,
+                });
+
+                navigate('/');
+            } catch (e) {
+                errorHandler(e);
+            } finally {
+                end();
+            }
+        },
+        [errorHandler, start, end, signIn, navigate]
+    );
+
     // useEffect(() => {
     //     const params = new URLSearchParams(location.search);
     //     const error = params.get('e');
@@ -60,8 +91,9 @@ const Login = () => {
 
     return (
         <Layout>
-            <Box sx={{ p: { xs: 2.5, md: 5 } }}>
+            <Box sx={{ p: 5 }}>
                 <Image name='logo.png' sx={{ height: 30 }} />
+                {backdrop}
                 <Title>Sign In</Title>
                 <Typography variant='body1' mb={isEmpty(errors) ? 6 : 1} color='text.secondary'>
                     Enter your credentials to sign-in your account.
@@ -73,13 +105,9 @@ const Login = () => {
                     </Typography>
                 )}
                 <Form onSubmit={handleSubmit(onSubmit)}>
-                    <Typography variant='subtitle2' gutterBottom>
-                        Email Address
-                    </Typography>
-
                     <Input
+                        label='Email Address'
                         fieldName='email'
-                        placeholder='name@workmail.com'
                         register={register}
                         registerOptions={{
                             required: 'Email address is required',
@@ -88,40 +116,39 @@ const Login = () => {
                                 message: 'Email address must be valid',
                             },
                         }}
+                        sx={{ mb: 2.5 }}
                     />
-                    <Typography variant='subtitle2' gutterBottom>
-                        Password
-                        <div
-                            variant='body2'
-                            onClick={() => navigate('/auth/identify')}
-                            style={{
-                                float: 'right',
-                                textDecoration: 'none',
-                                color: '#0472D2',
-                                cursor: 'pointer',
-                                fontSize: 13,
-                            }}>
-                            Forget password?
-                        </div>
-                    </Typography>
 
                     <Input
+                        label='Password'
                         fieldName='password'
-                        placeholder='Enter your password'
                         type='password'
                         register={register}
                         registerOptions={{ required: 'Password is required' }}
                         sx={{ mb: 2.5 }}
                     />
 
+                    <Typography
+                        variant='body2'
+                        onClick={() => navigate('/auth/identify')}
+                        sx={{
+                            mt: -1.5,
+                            float: 'right',
+                            textDecoration: 'none',
+                            color: '#0472D2',
+                            cursor: 'pointer',
+                            fontSize: 13,
+                        }}>
+                        Forget password?
+                    </Typography>
+
                     <Button
                         type='submit'
                         variant='contained'
-                        size='large'
                         fullWidth
                         disabled={isSubmitting}
                         endIcon={isSubmitting && <CircularProgress color='inherit' size='small' />}
-                        sx={{ p: 1.5, my: 1 }}>
+                        sx={{ p: 1, my: 1 }}>
                         Sign in
                     </Button>
                 </Form>
@@ -131,14 +158,25 @@ const Login = () => {
                     </Typography>
                 </Divider>
 
-                <Stack mt={3} spacing={2} my={3.5}>
-                    <GoogleButton name='Continue with Google' />
-                    <FacebookButton name='Continue with Facebook' />
+                <Stack spacing={2} my={2.5} justifyContent='center'>
+                    <GoogleLogin
+                        text='continue_with'
+                        width='400px'
+                        size='large'
+                        useOneTap
+                        context='signin'
+                        onSuccess={createAccountByProvider}
+                        onError={() =>
+                            showError('Something went wrong while signing in with Google')
+                        }
+                    />
                 </Stack>
 
                 <Stack direction='row' justifyContent='center' spacing={2}>
-                    <div>New to Cloud Drive?</div>
-                    <Link to='/auth/sign-up'>Sign up</Link>
+                    <Typography variant='body2'>New to Cloud Drive?</Typography>
+                    <Link href='/auth/sign-up' color='primary.main'>
+                        Sign up
+                    </Link>
                 </Stack>
             </Box>
         </Layout>

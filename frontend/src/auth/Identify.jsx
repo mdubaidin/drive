@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import useErrorHandler from '../hooks/useErrorHandler';
 import { useForm } from 'react-hook-form';
-import { Box, Button, CircularProgress, Stack, Typography } from '@mui/material';
+import { Box, Button, CircularProgress, Stack, Typography, Link } from '@mui/material';
 import Image from '../components/Image';
 import { isEmpty } from '../utils/function';
 import Input from '../components/Input';
-import { Link } from 'react-router-dom';
 import { authApi } from '../utils/axios';
 import Form from '../components/Form';
 import Title from './components/Title';
@@ -40,7 +39,7 @@ const Identify = () => {
                         <Title>Email Sent!</Title>
 
                         <Typography
-                            variant='body1'
+                            variant='body2'
                             mb={isEmpty(errors) ? 6 : 1}
                             color='text.secondary'>
                             Kindly check your email inbox. we have just sent your reset password
@@ -51,7 +50,7 @@ const Identify = () => {
                     <Box>
                         <Title>Trouble Logging in?</Title>
                         <Typography
-                            variant='body1'
+                            variant='body2'
                             mb={isEmpty(errors) ? 6 : 1}
                             color='text.secondary'>
                             Please enter your email address and we&apos;ll send you a link to get
@@ -65,9 +64,9 @@ const Identify = () => {
                         )}
                         <Form onSubmit={handleSubmit(onSubmit)}>
                             <Input
+                                label='Email address'
                                 fieldName='email'
                                 variation='auth'
-                                placeholder='Email address'
                                 register={register}
                                 registerOptions={{
                                     required: 'Email address is required',
@@ -81,7 +80,6 @@ const Identify = () => {
                             <Button
                                 type='submit'
                                 variant='contained'
-                                size='large'
                                 fullWidth
                                 disabled={isSubmitting}
                                 endIcon={
@@ -89,13 +87,13 @@ const Identify = () => {
                                         <CircularProgress color='inherit' size='small' />
                                     )
                                 }
-                                sx={{ p: 1.5, my: 1 }}>
+                                sx={{ p: 1, my: 1 }}>
                                 Send
                             </Button>
                         </Form>
                         <Stack direction='row' justifyContent='center' mt={3} spacing={2}>
-                            <div>Already have an account?</div>
-                            <Link to='/auth/sign-in'>Sign in</Link>
+                            <Typography variant='body2'>Already have an account?</Typography>
+                            <Link href='/auth/sign-in'>Sign in</Link>
                         </Stack>
                     </Box>
                 )}

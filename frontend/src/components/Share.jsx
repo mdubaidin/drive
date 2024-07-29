@@ -61,9 +61,7 @@ const Share = props => {
             newUserIds[index] = '';
 
             try {
-                const response = await axios.get(`/user-info?email=${email}`, {
-                    baseURL: 'https://api.admin.clikkle.com',
-                });
+                const response = await axios.get(`/users/info?email=${email}`);
 
                 const { success, message, user } = response.data;
 
@@ -415,7 +413,7 @@ const Share = props => {
                                                 variant='body2'
                                                 fontWeight={500}
                                                 lineHeight={0.8}>
-                                                {user.email}
+                                                {user.name}
                                             </Typography>
 
                                             <Typography variant='caption'>{user.email}</Typography>

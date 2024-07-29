@@ -390,7 +390,7 @@ const FileCard = props => {
                     alignItems: 'center',
                 }}>
                 <>
-                    <Share closeModal={closeShare} content={file} refresh={refresh} />
+                    <Share closeModal={closeShare} selected={{ files: [id] }} refresh={refresh} />
                 </>
             </Modal>
 

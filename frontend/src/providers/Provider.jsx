@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext } from 'react';
 import useSnack from '../hooks/useSnack';
 import AuthProvider from './AuthProvider';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 const ProviderContext = createContext();
 
@@ -9,10 +10,12 @@ const Provider = ({ children }) => {
 
     return (
         <ProviderContext.Provider value={{ showMessage }}>
-            <AuthProvider>
-                {children}
-                {SnackBar}
-            </AuthProvider>
+            <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+                <AuthProvider>
+                    {children}
+                    {SnackBar}
+                </AuthProvider>
+            </GoogleOAuthProvider>
         </ProviderContext.Provider>
     );
 };

@@ -11,8 +11,6 @@ const Auth = () => {
         if (isAuthenticated && pathname.includes('auth')) {
             return window.history.go(1);
         }
-
-        navigate('/auth/sign-in');
     }, [isAuthenticated, pathname, navigate]);
 
     return isAuthenticated ? null : <Outlet />;

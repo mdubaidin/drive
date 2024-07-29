@@ -293,7 +293,7 @@ const FolderCard = props => {
                     alignItems: 'center',
                 }}>
                 <>
-                    <Share closeModal={closeShare} content={folder} refresh={refresh} />
+                    <Share closeModal={closeShare} selected={{ folders: [id] }} refresh={refresh} />
                 </>
             </Modal>
         </>

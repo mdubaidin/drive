@@ -242,6 +242,11 @@ const ThemeProvider = props => {
                         styleOverrides: {
                             root: {
                                 marginBottom: '16px',
+                                'input::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button':
+                                    {
+                                        WebkitAppearance: 'none',
+                                        margin: '0',
+                                    },
                             },
                         },
                     },

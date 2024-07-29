@@ -1,19 +1,20 @@
-import { Box, Button, CircularProgress, Divider, Stack, Typography } from '@mui/material';
-import React, { createContext, useState, useContext } from 'react';
+import { Box, Button, CircularProgress, Divider, Stack, Typography, Link } from '@mui/material';
+import React, { createContext, useState, useContext, useCallback } from 'react';
 import { useForm } from 'react-hook-form';
 import Form from '../components/Form';
-import FacebookButton from '../components/button/FacebookButton';
-import GoogleButton from '../components/button/GoogleButton';
 import Input from '../components/Input';
 import useErrorHandler from '../hooks/useErrorHandler';
 import { isEmpty } from '../utils/function';
 import { useMessage } from '../providers/Provider';
 import { authApi } from '../utils/axios';
 
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Image from '../components/Image';
 import Title from './components/Title';
 import Layout from './Layout';
+import { GoogleLogin } from '@react-oauth/google';
+import useLoader from '../hooks/useLoader';
+import useSignIn from 'react-auth-kit/hooks/useSignIn';
 
 const initialFormInput = { name: '', email: '', password: '', otp: '' };
 
@@ -42,6 +43,10 @@ const Main = () => {
 function CreateAccount() {
     const { setData, setStep } = useContext(FormContext);
     const errorHandler = useErrorHandler();
+    const { showError } = useMessage();
+    const signIn = useSignIn();
+    const navigate = useNavigate();
+    const { start, end, backdrop } = useLoader();
     const {
         register,
         handleSubmit,
@@ -59,11 +64,40 @@ function CreateAccount() {
         }
     };
 
+    const createAccountByProvider = useCallback(
+        async response => {
+            try {
+                start();
+                const { data } = await authApi.post('/providers/google', {
+                    credential: response.credential,
+                });
+
+                const auth = { token: data.accessToken };
+                const refresh = data.refreshToken;
+                const userState = data.userInfo;
+
+                signIn({
+                    auth,
+                    refresh,
+                    userState,
+                });
+
+                navigate('/');
+            } catch (e) {
+                errorHandler(e);
+            } finally {
+                end();
+            }
+        },
+        [errorHandler, start, end, signIn, navigate]
+    );
+
     return (
-        <Box sx={{ p: { xs: 2.5, md: 5 } }}>
+        <Box sx={{ p: 5 }}>
+            {backdrop}
             <Image name='logo.png' sx={{ height: 30 }} />
             <Title>Create account</Title>
-            <Typography variant='body1' mb={isEmpty(errors) ? 6 : 1} color='text.secondary'>
+            <Typography variant='body2' mb={isEmpty(errors) ? 6 : 1} color='text.secondary'>
                 Enter your credentials and start journey with us.
             </Typography>
 
@@ -73,12 +107,9 @@ function CreateAccount() {
                 </Typography>
             )}
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <Typography variant='subtitle2' gutterBottom>
-                    Full Name
-                </Typography>
                 <Input
+                    label='Full name'
                     fieldName='name'
-                    placeholder='John Smith'
                     register={register}
                     registerOptions={{
                         required: 'Full name is required',
@@ -91,14 +122,12 @@ function CreateAccount() {
                             message: 'Name exceeds the maximum character limit',
                         },
                     }}
+                    sx={{ mb: 2.5 }}
                 />
-                <Typography variant='subtitle2' gutterBottom>
-                    Email Address
-                </Typography>
 
                 <Input
+                    label='Email address'
                     fieldName='email'
-                    placeholder='name@workmail.com'
                     register={register}
                     registerOptions={{
                         required: 'Email address is required',
@@ -107,14 +136,12 @@ function CreateAccount() {
                             message: 'Email address must be valid',
                         },
                     }}
+                    sx={{ mb: 2.5 }}
                 />
-                <Typography variant='subtitle2' gutterBottom>
-                    Password
-                </Typography>
 
                 <Input
+                    label='Password'
                     fieldName='password'
-                    placeholder='Create a new password'
                     type='password'
                     register={register}
                     registerOptions={{ required: 'Password is required' }}
@@ -124,11 +151,10 @@ function CreateAccount() {
                 <Button
                     type='submit'
                     variant='contained'
-                    size='large'
                     fullWidth
                     disabled={isSubmitting}
                     endIcon={isSubmitting && <CircularProgress color='inherit' size='small' />}
-                    sx={{ p: 1.5, my: 1 }}>
+                    sx={{ p: 1, my: 1 }}>
                     Next
                 </Button>
             </Form>
@@ -138,14 +164,21 @@ function CreateAccount() {
                 </Typography>
             </Divider>
 
-            <Stack mt={3} spacing={2} my={3}>
-                <GoogleButton name='Sign up with Google' />
-                <FacebookButton name='Sign up with Facebook' />
+            <Stack spacing={2} my={2.5} justifyContent='center'>
+                <GoogleLogin
+                    text='signup_with'
+                    width='400px'
+                    size='large'
+                    useOneTap
+                    onSuccess={createAccountByProvider}
+                    context='signup'
+                    onError={() => showError('Something went wrong while signing in with Google')}
+                />
             </Stack>
 
             <Stack direction='row' justifyContent='center' mt={3} spacing={2}>
-                <div>Already have an account?</div>
-                <Link to='/auth/sign-in' color='primary.main' fontWeight={500}>
+                <Typography variant='body2'>Already have an account?</Typography>
+                <Link href='/auth/sign-in' color='primary.main' fontWeight={500}>
                     Sign In
                 </Link>
             </Stack>
@@ -177,9 +210,9 @@ function EmailConfirmation() {
 
     return (
         <Box sx={{ p: { xs: 2.5, md: 5 } }}>
-            <Image name='logo-text.png' sx={{ height: 30 }} />
+            <Image name='logo.png' sx={{ height: 30 }} />
             <Title>Email Confirmation</Title>
-            <Typography variant='body1' mb={isEmpty(errors) ? 6 : 1} color='text.secondary'>
+            <Typography variant='body2' mb={isEmpty(errors) ? 6 : 1} color='text.secondary'>
                 Cloud Drive wants to make sure that it&apos;s really you. Cloud Drive will send an
                 email with a six-digit confirmation code on your{' '}
                 <Link href={`mailto:${data.email}`}>{data.email}</Link>.
@@ -191,12 +224,9 @@ function EmailConfirmation() {
                 </Typography>
             )}
             <Form onSubmit={handleSubmit(onSubmit)}>
-                <Typography variant='subtitle2' gutterBottom>
-                    Email Confirmation
-                </Typography>
                 <Input
+                    label='Email confirmation code'
                     fieldName='otp'
-                    placeholder='Email confirmation code'
                     type='number'
                     register={register}
                     registerOptions={{

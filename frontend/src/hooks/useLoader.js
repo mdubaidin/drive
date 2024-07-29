@@ -1,3 +1,4 @@
+import { Backdrop } from '@mui/material';
 import CircularProgress from '@mui/material/CircularProgress';
 import LinearProgress from '@mui/material/LinearProgress';
 import React, { useState } from 'react';
@@ -18,6 +19,13 @@ const useLoader = props => {
             />
         ),
         linear: loading && <LinearProgress sx={{ color: 'inherit' }} />,
+        backdrop: (
+            <Backdrop
+                sx={{ color: '#fff', zIndex: theme => theme.zIndex.drawer + 1 }}
+                open={loading}>
+                <CircularProgress sx={{ color: 'inherit' }} />
+            </Backdrop>
+        ),
         loaderState: loading,
         start,
         end,

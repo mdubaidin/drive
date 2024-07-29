@@ -364,7 +364,11 @@ const Preview = props => {
                         alignItems: 'center',
                     }}>
                     <>
-                        <Share closeModal={closeShare} content={content} refresh={refresh} />
+                        <Share
+                            closeModal={closeShare}
+                            selected={{ files: [id] }}
+                            refresh={refresh}
+                        />
                     </>
                 </Modal>
             </Box>

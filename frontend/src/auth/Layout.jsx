@@ -31,6 +31,10 @@ const theme = createTheme({
             styleOverrides: {
                 root: {
                     marginBottom: '16px',
+                    'input::-webkit-outer-spin-button,\ninput::-webkit-inner-spin-button': {
+                        WebkitAppearance: 'none',
+                        margin: '0',
+                    },
                 },
             },
         },
@@ -42,7 +46,7 @@ const Layout = ({ children }) => {
         <ThemeProvider theme={theme}>
             <Box
                 sx={{
-                    background: '#F2F2F2',
+                    background: '#FFF',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: { xs: 'flex-start', sm: 'center' },
@@ -52,10 +56,11 @@ const Layout = ({ children }) => {
                 <Card
                     sx={{
                         p: 2,
-                        width: { xs: '100%', sm: '448px', md: '553px' },
+                        width: { xs: '100%', sm: '500px' },
                         transition: 'all 0.2s',
-                        borderRadius: '4px',
-                        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+                        borderRadius: '10px',
+                        border: '1px solid rgb(219, 219, 219)',
+                        // boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
                     }}
                     elevation={0}>
                     {children}
