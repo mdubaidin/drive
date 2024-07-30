@@ -164,14 +164,12 @@ function CreateAccount() {
                 </Typography>
             </Divider>
 
-            <Stack spacing={2} my={2.5} justifyContent='center'>
+            <Stack spacing={2} my={2.5} justifyContent='center' alignItems='center'>
                 <GoogleLogin
                     text='signup_with'
-                    width='400px'
                     size='large'
                     useOneTap
                     onSuccess={createAccountByProvider}
-                    context='signup'
                     onError={() => showError('Something went wrong while signing in with Google')}
                 />
             </Stack>

@@ -30,6 +30,7 @@ import FolderViewer from './components/folderViewer/FolderViewer';
 import Folder from './components/folderViewer/Folder';
 import NotFound from './components/NotFound';
 import Views from './views';
+import PrivacyPolicy from './pages/PrivacyPolicy';
 
 const App = () => {
     return (
@@ -72,6 +73,8 @@ const App = () => {
                     <Route path='folder/:id' element={<FolderViewer />} />
                     <Route path='folders/:id' element={<Folder />} />
                 </Route>
+
+                <Route path='/privacy-policy' element={<PrivacyPolicy />} />
 
                 <Route path='*' element={<NotFound />} />
             </Routes>

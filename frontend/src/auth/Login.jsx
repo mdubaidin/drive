@@ -158,13 +158,11 @@ const Login = () => {
                     </Typography>
                 </Divider>
 
-                <Stack spacing={2} my={2.5} justifyContent='center'>
+                <Stack spacing={2} my={2.5} justifyContent='center' alignItems='center'>
                     <GoogleLogin
                         text='continue_with'
-                        width='400px'
                         size='large'
                         useOneTap
-                        context='signin'
                         onSuccess={createAccountByProvider}
                         onError={() =>
                             showError('Something went wrong while signing in with Google')
