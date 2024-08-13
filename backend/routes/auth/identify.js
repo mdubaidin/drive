@@ -30,7 +30,7 @@ const identify = async function (req, res, next) {
         transporter.sendMail({
             from: process.env.PLATFORM,
             to: email, // list of receivers
-            subject: 'Reset Your Password for Messengerz ',
+            subject: 'Reset Your Password for Cloud Drive',
             html: template, // html body
         });
 

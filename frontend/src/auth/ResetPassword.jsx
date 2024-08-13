@@ -37,7 +37,7 @@ const ResetPassword = () => {
             });
 
             showSuccess('Password changed!');
-            navigate('/auth/login');
+            navigate('/auth/sign-in');
         } catch (err) {
             errorHandler(err);
         }
